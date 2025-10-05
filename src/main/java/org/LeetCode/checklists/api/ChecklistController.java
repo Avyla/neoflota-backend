@@ -1,0 +1,53 @@
+package org.LeetCode.checklists.api;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
+import org.LeetCode.checklists.application.dto.CreateInstanceRequest;
+import org.LeetCode.checklists.application.dto.CreateInstanceResponse;
+import org.LeetCode.checklists.application.dto.InstanceSummaryResponse;
+import org.LeetCode.checklists.application.dto.SaveResponsesRequest;
+import org.LeetCode.checklists.application.dto.SubmitRequest;
+import org.LeetCode.checklists.application.service.ChecklistService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+
+@RestController
+@RequestMapping("/checklists")
+@RequiredArgsConstructor
+@Validated
+public class ChecklistController {
+
+    private final ChecklistService service;
+
+    /** POST /checklists/instances -> crear instancia */
+    @PostMapping("/instances")
+    public ResponseEntity<CreateInstanceResponse> createInstance(@Valid @RequestBody CreateInstanceRequest req) {
+        var res = service.createInstance(req);
+        return ResponseEntity.created(URI.create("/checklists/instances/" + res.instanceId())).body(res);
+    }
+
+    /** POST /checklists/instances/{id}/responses -> guardar respuestas (batch) */
+    @PostMapping("/instances/{id}/responses")
+    public ResponseEntity<Void> saveResponses(@PathVariable @Positive long id,
+                                              @Valid @RequestBody SaveResponsesRequest req) {
+        service.saveResponses(id, req);
+        return ResponseEntity.noContent().build(); // 204
+    }
+
+    /** POST /checklists/instances/{id}/submit -> cerrar y calcular resultado */
+    @PostMapping("/instances/{id}/submit")
+    public InstanceSummaryResponse submit(@PathVariable @Positive long id,
+                                          @RequestBody(required = false) SubmitRequest ignored) {
+        return service.submit(id);
+    }
+
+    /** GET /checklists/instances/{id} -> ver resumen */
+    @GetMapping("/instances/{id}")
+    public InstanceSummaryResponse get(@PathVariable @Positive long id) {
+        return service.getSummary(id);
+    }
+}
