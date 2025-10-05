@@ -1,3 +1,3 @@
-package org.LeetCode.checklists.application.dto;
+package org.LeetCode.common.application.dto;
 
 public record CreateInstanceResponse(Long instanceId) {}

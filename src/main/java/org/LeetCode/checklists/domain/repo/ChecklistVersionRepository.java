@@ -4,6 +4,7 @@ import org.LeetCode.checklists.domain.model.ChecklistVersion;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ChecklistVersionRepository extends JpaRepository<ChecklistVersion, Long> {
@@ -17,5 +18,6 @@ public interface ChecklistVersionRepository extends JpaRepository<ChecklistVersi
   """)
     Optional<Long> findPublishedVersionId(@Param("templateCode") String templateCode,
                                           @Param("versionLabel") String versionLabel);
+
 }
 

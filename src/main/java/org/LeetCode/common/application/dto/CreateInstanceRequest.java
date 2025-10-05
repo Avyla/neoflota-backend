@@ -1,4 +1,4 @@
-package org.LeetCode.checklists.application.dto;
+package org.LeetCode.common.application.dto;
 
 import jakarta.validation.constraints.*;
 import java.util.List;
