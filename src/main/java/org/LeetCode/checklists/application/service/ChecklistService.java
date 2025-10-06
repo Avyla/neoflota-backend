@@ -1,10 +1,10 @@
-package org.LeetCode.common.application.service;
+package org.LeetCode.checklists.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.LeetCode.common.application.dto.CreateInstanceRequest;
-import org.LeetCode.common.application.dto.CreateInstanceResponse;
-import org.LeetCode.common.application.dto.InstanceSummaryResponse;
-import org.LeetCode.common.application.dto.SaveResponsesRequest;
+import org.LeetCode.checklists.domain.dto.CreateInstanceRequest;
+import org.LeetCode.checklists.domain.dto.CreateInstanceResponse;
+import org.LeetCode.checklists.domain.dto.InstanceSummaryResponse;
+import org.LeetCode.checklists.domain.dto.SaveResponsesRequest;
 import org.LeetCode.checklists.domain.model.ChecklistAttachment;
 import org.LeetCode.checklists.domain.model.ChecklistInstance;
 import org.LeetCode.checklists.domain.model.ChecklistItem;

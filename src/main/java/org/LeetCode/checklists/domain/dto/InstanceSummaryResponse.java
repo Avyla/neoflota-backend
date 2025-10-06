@@ -1,4 +1,4 @@
-package org.LeetCode.common.application.dto;
+package org.LeetCode.checklists.domain.dto;
 
 public record InstanceSummaryResponse(
         Long instanceId, Long vehicleId, Integer odometer,
