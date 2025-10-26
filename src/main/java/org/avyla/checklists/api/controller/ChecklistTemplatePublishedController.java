@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 @RestController
-@RequestMapping("/checklists/templates")
+@RequestMapping("/api/checklists/templates")
 @RequiredArgsConstructor
 public class ChecklistTemplatePublishedController {
 

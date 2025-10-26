@@ -4,6 +4,18 @@ spring:
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:elliam012}
 
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
+
+  checklists:
+    generation:
+      enabled: true
+    instance:
+      ttl-minutes: 60         # Ventana de tiempo para completar un checklist
+      complete-minutes: 15    # Bloqueo tras expirar el checklist
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -11,13 +23,14 @@ spring:
       hibernate:
         format_sql: true
         jdbc.time_zone: UTC
+        jdbc.lob.non_contextual_creation: true
     open-in-view: false
 
   flyway:
     enabled: true
-    locations: classpath:db/migration         # <- AJUSTA si usas subcarpeta
-    baseline-on-migrate: true
-    baseline-version: 1
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    baseline-version: 0
     baseline-description: "manual baseline checklists v1"
     out-of-order: false
 

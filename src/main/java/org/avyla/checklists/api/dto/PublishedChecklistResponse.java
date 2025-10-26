@@ -1,5 +1,8 @@
 package org.avyla.checklists.api.dto;
 
+import org.avyla.checklists.infrastructure.ResponseState;
+import org.avyla.checklists.infrastructure.SeverityOptions;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
@@ -11,17 +14,13 @@ public class PublishedChecklistResponse {
     public OffsetDateTime publishedAt;
     public String versionHash;
 
-    public List<String> stateOptions; // ["OK","OBS","NOOP","NA"]
+    // Enum para estados
+    public List<ResponseState> stateOptions; // ["OK","OBS","NOOP","NA"]
 
-    public Map<String, List<CatalogItemDTO>> detailCatalogs; // "ExternalLights":[{code,label,order}]
+    // "ExternalLights":[{code,label,order}]
+    public Map<String, List<CatalogItemDTO>> detailCatalogs;
 
     public List<SectionDTO> sections;
-
-    public static class CatalogItemDTO {
-        public String code;
-        public String label;
-        public int order;
-    }
 
     public static class SectionDTO {
         public Long id;
@@ -31,15 +30,21 @@ public class PublishedChecklistResponse {
         public List<ItemDTO> items;
     }
 
+    public static class CatalogItemDTO {
+        public String code;
+        public String label;
+        public Integer order;
+    }
+
     public static class ItemDTO {
         public String code;
         public String label;
         public boolean required;
-        public boolean allowNA;     // mapeado desde allowNa (entidad)
-        public String severity;     // Low|Medium|High|Critical
+        public boolean allowNA;          // mapeado desde allowNa (entidad)
+        public SeverityOptions severity; // LOW|MEDIUM|HIGH|CRITICAL
         public boolean hasDetails;
-        public String detailCatalog; // null si no aplica
+        public String detailCatalog;     // null si no aplica
         public int order;
-        public String helpText;     // opcional (puede venir null)
+        public String helpText;          // opcional (puede venir null)
     }
 }

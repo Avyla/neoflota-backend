@@ -1,18 +1,26 @@
 package org.avyla.checklists.domain.model;
 
 import jakarta.persistence.*;
-import lombok.Getter; import lombok.Setter;
+import lombok.*;
 
-@Entity @Table(name = "checklist_response_option")
-@IdClass(ChecklistResponseOptionId.class)
+@Entity
+@Table(name = "checklist_response_option")
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class ChecklistResponseOption {
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "response_id")
+
+    @EmbeddedId
+    private ResponseOptionId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("responseId") // enlaza con id.responseId
+    @JoinColumn(name = "response_id", nullable = false)
     private ChecklistResponse response;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "option_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("optionId")   // enlaza con id.optionId
+    @JoinColumn(name = "option_id", nullable = false)
     private OptionItem option;
 }
-

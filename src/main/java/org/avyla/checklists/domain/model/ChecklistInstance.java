@@ -2,6 +2,10 @@ package org.avyla.checklists.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Getter; import lombok.Setter;
+import org.avyla.checklists.infrastructure.InstanceStatus;
+import org.avyla.checklists.infrastructure.ResponseState;
+
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity @Table(name = "checklist_instance")
@@ -11,7 +15,8 @@ public class ChecklistInstance {
     @Column(name = "instance_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "version_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "version_id", nullable = false)
     private ChecklistVersion version;
 
     @Column(name = "vehicle_id")
@@ -26,8 +31,9 @@ public class ChecklistInstance {
     @Column(name = "maintenance_order_id")
     private Long maintenanceOrderId;
 
-    @Column(nullable = false, length = 20)
-    private String status = "Pending";
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private InstanceStatus status = InstanceStatus.PENDING;
 
     @Column(name = "due_at")
     private Instant dueAt;
@@ -42,16 +48,18 @@ public class ChecklistInstance {
     private Long performedByUserId;
 
     @Column(name = "location_lat", precision = 9, scale = 6)
-    private java.math.BigDecimal locationLat;
+    private BigDecimal locationLat;
 
     @Column(name = "location_lon", precision = 9, scale = 6)
-    private java.math.BigDecimal locationLon;
+    private BigDecimal locationLon;
 
     private Integer odometer;
 
     @Column(name = "overall_pass")
     private Boolean overallPass;
 
+    //Atributo no utilizado
+    // Mantener por compatibilidad con BD existente
     @Column(name = "condition_general", length = 25)
     private String conditionGeneral; // APTO|APTO_RESTRICCIONES|NO_APTO
 

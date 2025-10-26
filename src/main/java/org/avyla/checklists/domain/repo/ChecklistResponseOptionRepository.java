@@ -1,18 +1,19 @@
 package org.avyla.checklists.domain.repo;
 
-
 import org.avyla.checklists.domain.model.ChecklistResponseOption;
-import org.avyla.checklists.domain.model.ChecklistResponseOptionId;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.avyla.checklists.domain.model.ResponseOptionId;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ChecklistResponseOptionRepository
-        extends JpaRepository<ChecklistResponseOption, ChecklistResponseOptionId> {
+import java.util.List;
 
-    @Modifying
-    @Query("delete from ChecklistResponseOption ro where ro.response.id = :responseId")
-    void deleteByResponseId(@Param("responseId") Long responseId);
+@Repository
+public interface ChecklistResponseOptionRepository extends JpaRepository<ChecklistResponseOption, ResponseOptionId> {
+
+
+    void deleteByResponse_Id(Long responseId);
+
+    List<ChecklistResponseOption> findAllByResponse_Id(Long responseId);
+
 }
-

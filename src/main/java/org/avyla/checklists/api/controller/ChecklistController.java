@@ -1,53 +1,65 @@
 package org.avyla.checklists.api.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.avyla.checklists.api.dto.CreateInstanceRequest;
-import org.avyla.checklists.api.dto.CreateInstanceResponse;
-import org.avyla.checklists.api.dto.InstanceSummaryResponse;
+import org.avyla.checklists.api.dto.InstanceDetailsResponse;
+import org.avyla.checklists.api.dto.PendingPayloadResponse;
 import org.avyla.checklists.api.dto.SaveResponsesRequest;
 import org.avyla.checklists.api.dto.SubmitRequest;
 import org.avyla.checklists.application.service.ChecklistService;
+import org.avyla.checklists.infrastructure.InstanceStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.Instant;
 
 @RestController
-@RequestMapping("/checklists")
+@RequestMapping("/api/checklists")
 @RequiredArgsConstructor
-@Validated
 public class ChecklistController {
 
     private final ChecklistService service;
 
-    /** POST /checklists/instances -> crear instancia */
     @PostMapping("/instances")
-    public ResponseEntity<CreateInstanceResponse> createInstance(@Valid @RequestBody CreateInstanceRequest req) {
-        var res = service.createInstance(req);
-        return ResponseEntity.created(URI.create("/checklists/instances/" + res.instanceId())).body(res);
+    public ResponseEntity<CreateInstanceResponse> createInstance(@RequestParam String templateCode,
+                                                                 @RequestParam Long driverId) {
+        var inst = service.createInstance(templateCode, driverId);
+        var body = new CreateInstanceResponse(
+                inst.getId(),
+                inst.getStatus(),      // status es String en la entidad
+                inst.getStartedAt(),
+                inst.getDueAt()
+        );
+        return ResponseEntity.created(URI.create("/api/checklists/instances/" + inst.getId()))
+                .body(body);
     }
 
-    /** POST /checklists/instances/{id}/responses -> guardar respuestas (batch) */
     @PostMapping("/instances/{id}/responses")
-    public ResponseEntity<Void> saveResponses(@PathVariable @Positive long id,
+    public ResponseEntity<Void> saveResponses(@PathVariable Long id,
                                               @Valid @RequestBody SaveResponsesRequest req) {
         service.saveResponses(id, req);
-        return ResponseEntity.noContent().build(); // 204
+        return ResponseEntity.ok().build();
     }
 
-    /** POST /checklists/instances/{id}/submit -> cerrar y calcular resultado */
+    @GetMapping("/drivers/{driverId}/instances/pending/payload")
+    public ResponseEntity<PendingPayloadResponse> pendingPayload(@PathVariable Long driverId) {
+        var payload = service.getPendingPayload(driverId);
+        if (payload == null) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(payload);
+    }
+
+    @GetMapping("/instances/{id}/details")
+    public InstanceDetailsResponse instanceDetails(@PathVariable Long id) {
+        return service.getInstanceDetails(id);
+    }
+
     @PostMapping("/instances/{id}/submit")
-    public InstanceSummaryResponse submit(@PathVariable @Positive long id,
-                                          @RequestBody(required = false) SubmitRequest ignored) {
-        return service.submit(id);
+    @ResponseStatus(HttpStatus.OK)
+    public void submit(@PathVariable Long id, @RequestBody @Valid SubmitRequest req) {
+        service.submit(id, req);
     }
 
-    /** GET /checklists/instances/{id} -> ver resumen */
-    @GetMapping("/instances/{id}")
-    public InstanceSummaryResponse get(@PathVariable @Positive long id) {
-        return service.getSummary(id);
-    }
+    private record CreateInstanceResponse(Long instanceId, InstanceStatus status, Instant startedAt, Instant dueAt) {}
 }
