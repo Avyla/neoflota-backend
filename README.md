@@ -1,4 +1,404 @@
-# NeoFlota · Guía de Integración Frontend – Módulo Checklists (v1.1)
+# NeoFlota Backend – Guía de Integración Frontend
+
+Documentación de endpoints REST para integración con el frontend.
+
+**Backend**: Spring Boot | **Base URL**: `http://localhost:8080`
+
+---
+
+## 📚 Índice
+
+1. [Quick Start](#quick-start)
+2. [Módulo de Vehículos](#módulo-de-vehículos)
+3. [Módulo de Checklists](#módulo-de-checklists)
+4. [Flujos End-to-End](#flujos-end-to-end)
+
+---
+
+## Quick Start
+
+### Base URL y Autenticación
+
+* **Base URL**: `http://localhost:8080`
+* **Autenticación**: Header `Authorization: Bearer {{token}}`
+* **Content-Type**: `application/json` (excepto uploads: `multipart/form-data`)
+
+### Variables de Postman
+
+```json
+{
+  "baseUrl": "http://localhost:8080",
+  "token": "tu_token_aqui"
+}
+```
+
+---
+
+## Módulo de Vehículos
+
+### 1) Obtener Catálogos (Metadata Publicada)
+
+#### GET `/api/vehicles/published`
+
+Retorna todos los catálogos necesarios para construir formularios de vehículos (marcas, tipos, categorías, combustibles, estados, condiciones) y reglas de validación.
+
+**Headers**:
+
+```
+Authorization: Bearer {{token}}
+```
+
+**Respuesta** (200 OK):
+
+```json
+{
+  "catalogs": {
+    "makes": [
+      { "id": 1, "name": "Toyota" },
+      { "id": 2, "name": "Chevrolet" },
+      { "id": 3, "name": "Mazda" }
+    ],
+    "types": [
+      { "id": 1, "name": "Automóvil" },
+      { "id": 2, "name": "Camioneta" },
+      { "id": 3, "name": "Camión" }
+    ],
+    "categories": [
+      { "id": 1, "name": "Particular" },
+      { "id": 2, "name": "Público" },
+      { "id": 3, "name": "Oficial" }
+    ],
+    "fuelTypes": [
+      { "id": 1, "name": "Gasolina" },
+      { "id": 2, "name": "Diesel" },
+      { "id": 3, "name": "Eléctrico" },
+      { "id": 4, "name": "Híbrido" }
+    ],
+    "statuses": [
+      { "id": 1, "code": "ACTIVE", "name": "Activo", "description": "Vehículo en operación" },
+      { "id": 2, "code": "MAINTENANCE", "name": "Mantenimiento", "description": "En taller" },
+      { "id": 3, "code": "OUT_OF_SERVICE", "name": "Fuera de servicio", "description": "No operativo" }
+    ],
+    "conditions": [
+      { "id": 1, "code": "EXCELLENT", "name": "Excelente", "order": 1 },
+      { "id": 2, "code": "GOOD", "name": "Bueno", "order": 2 },
+      { "id": 3, "code": "FAIR", "name": "Regular", "order": 3 },
+      { "id": 4, "code": "POOR", "name": "Malo", "order": 4 }
+    ]
+  },
+  "validationRules": {
+    "plate": {
+      "pattern": "^(?:[A-Z]{3}[0-9]{3}|[A-Z]{3}[0-9]{2}[A-Z])$",
+      "format": "ABC123 o ABC12D",
+      "description": "3 letras seguidas de 3 números, o 3 letras, 2 números y 1 letra",
+      "examples": ["ABC123", "XYZ45D"]
+    },
+    "modelYear": { "min": 1950, "max": 2099 },
+    "odometer": { "min": 0, "unit": "km" },
+    "requiredFields": ["plate", "makeId", "modelName", "typeId", "categoryId", "fuelTypeId", "statusId"]
+  },
+  "version": "abc123def456"
+}
+```
+
+**Caché**: Incluye ETag y Cache-Control (1 hora). Frontend puede usar `If-None-Match` para caché condicional.
+
+---
+
+### 2) Crear Vehículo
+
+#### POST `/api/vehicles`
+
+**Body** (ejemplo con todos los campos):
+
+```json
+{
+  "plate": "ABC123",
+  "makeId": 1,
+  "modelName": "Corolla",
+  "modelYear": 2020,
+  "typeId": 1,
+  "categoryId": 1,
+  "fuelTypeId": 1,
+  "statusId": 1,
+  "conditionId": 2,
+  "vin": "1HGBH41JXMN109186",
+  "color": "Blanco",
+  "currentOdometer": 45000,
+  "soatExpirationDate": "2025-12-31",
+  "rtmExpirationDate": "2025-11-30"
+}
+```
+
+**Campos obligatorios**: `plate`, `makeId`, `modelName`, `typeId`, `categoryId`, `fuelTypeId`, `statusId`
+
+**Campos opcionales**: `modelYear`, `conditionId`, `vin`, `color`, `currentOdometer`, `soatExpirationDate`, `rtmExpirationDate`
+
+**Respuesta** (201 Created):
+
+```json
+{
+  "id": 2001,
+  "plate": "ABC123",
+  "makeId": 1,
+  "makeName": "Toyota",
+  "modelName": "Corolla",
+  "modelYear": 2020,
+  "typeId": 1,
+  "typeName": "Automóvil",
+  "categoryId": 1,
+  "categoryName": "Particular",
+  "fuelTypeId": 1,
+  "fuelTypeName": "Gasolina",
+  "statusId": 1,
+  "statusCode": "ACTIVE",
+  "statusName": "Activo",
+  "conditionId": 2,
+  "conditionCode": "GOOD",
+  "conditionName": "Bueno",
+  "vin": "1HGBH41JXMN109186",
+  "color": "Blanco",
+  "currentOdometer": 45000,
+  "soatExpirationDate": "2025-12-31",
+  "rtmExpirationDate": "2025-11-30",
+  "daysToSoatExpiration": 68,
+  "daysToRtmExpiration": 37,
+  "active": true,
+  "createdByUserId": 1,
+  "createdAt": "2025-10-26T10:30:00Z",
+  "updatedByUserId": null,
+  "updatedAt": null
+}
+```
+
+**Validaciones**:
+
+* Placa: `ABC123` o `ABC12D` (sin guion, mayúsculas)
+* Año: entre 1950 y 2099
+* Odómetro: mayor o igual a 0
+
+**Errores comunes**:
+
+* `400` - Placa inválida, año fuera de rango, campos requeridos faltantes
+* `409` - Placa duplicada
+
+---
+
+### 3) Listar Vehículos (Paginado)
+
+#### GET `/api/vehicles?page=0&size=20&sort=plate,asc&includeInactive=false`
+
+**Parámetros**:
+
+* `page`: número de página (default: 0)
+* `size`: tamaño de página (default: 20)
+* `sort`: ordenamiento (default: `plate,asc`)
+* `includeInactive`: incluir inactivos (default: `false`)
+
+**Ejemplo**: `GET /api/vehicles?page=0&size=10&sort=modelYear,desc`
+
+**Respuesta** (200 OK):
+
+```json
+{
+  "content": [
+    {
+      "id": 2001,
+      "plate": "ABC123",
+      "makeName": "Toyota",
+      "modelName": "Corolla",
+      "modelYear": 2020,
+      "statusCode": "ACTIVE",
+      "conditionCode": "GOOD",
+      "daysToSoatExpiration": 68,
+      "daysToRtmExpiration": 37
+    }
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 20
+  },
+  "totalElements": 45,
+  "totalPages": 3,
+  "last": false
+}
+```
+
+---
+
+### 4) Obtener Vehículo por ID
+
+#### GET `/api/vehicles/{id}`
+
+**Ejemplo**: `GET /api/vehicles/2001`
+
+**Respuesta** (200 OK): igual estructura que respuesta de crear vehículo
+
+**Errores**:
+
+* `404` - Vehículo no encontrado
+
+---
+
+### 5) Actualizar Vehículo
+
+#### PUT `/api/vehicles/{id}`
+
+**Body**: misma estructura que crear vehículo (todos los campos obligatorios deben enviarse)
+
+**Respuesta** (200 OK): vehículo actualizado
+
+**Errores**:
+
+* `400` - Validaciones fallidas
+* `404` - Vehículo no encontrado
+* `409` - Placa duplicada (si se cambió)
+
+---
+
+### 6) Desactivar/Reactivar Vehículo
+
+#### Desactivar (soft delete)
+
+**DELETE** `/api/vehicles/{id}`
+
+**Respuesta**: `204 No Content`
+
+#### Reactivar
+
+**PATCH** `/api/vehicles/{id}/activate`
+
+**Respuesta**: `204 No Content`
+
+---
+
+### 7) Vehículos Próximos a Vencer
+
+#### GET `/api/vehicles?vencenEn=30`
+
+Obtiene vehículos cuyo SOAT o RTM vence en los próximos N días.
+
+**Ejemplo**: `GET /api/vehicles?vencenEn=7` (próximos 7 días)
+
+**Respuesta** (200 OK):
+
+```json
+[
+  {
+    "id": 2001,
+    "plate": "ABC123",
+    "make": "Toyota",
+    "model": "Corolla",
+    "statusCode": "ACTIVE",
+    "conditionCode": "GOOD",
+    "soatExpirationDate": "2025-12-31",
+    "rtmExpirationDate": "2025-11-05",
+    "daysToSoat": 68,
+    "daysToRtm": 5
+  }
+]
+```
+
+**Uso**: ideal para dashboards de alertas. Mostrar badge rojo si `daysToSoat < 7` o `daysToRtm < 7`.
+
+---
+
+### 8) Subir Documentos (SOAT/RTM)
+
+#### POST `/api/vehicles/{id}/documents`
+
+**Content-Type**: `multipart/form-data`
+
+**Form Data**:
+
+```
+docType: SOAT
+issuer: Seguros ABC
+issuedAt: 2025-01-15
+expirationDate: 2025-12-31
+file: (archivo PDF/JPG/PNG, máx 5MB)
+```
+
+**Campos**:
+
+* `docType`: `SOAT` o `RTM` (obligatorio)
+* `issuer`: emisor del documento (opcional)
+* `issuedAt`: fecha de emisión (opcional, formato: `YYYY-MM-DD`)
+* `expirationDate`: fecha de vencimiento (opcional, formato: `YYYY-MM-DD`)
+* `file`: archivo (obligatorio, máx 5MB)
+
+**Formatos aceptados**: JPG, PNG, PDF
+
+**Respuesta** (200 OK):
+
+```json
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "vehicleId": 2001,
+  "docType": "SOAT",
+  "filename": "soat_abc123.pdf",
+  "mimeType": "application/pdf",
+  "size": 245678,
+  "issuer": "Seguros ABC",
+  "issuedAt": "2025-01-15",
+  "expirationDate": "2025-12-31",
+  "uploadedAt": "2025-10-26T10:45:00Z",
+  "uploadedByUserId": 1
+}
+```
+
+**Errores**:
+
+* `400` - Tipo de archivo no permitido, archivo muy grande
+* `404` - Vehículo no encontrado
+
+---
+
+### 9) Listar Documentos
+
+#### GET `/api/vehicles/{vehicleId}/documents?docType=SOAT`
+
+**Parámetros**:
+
+* `docType`: `SOAT` o `RTM` (obligatorio)
+
+**Ejemplo**: `GET /api/vehicles/2001/documents?docType=SOAT`
+
+**Respuesta** (200 OK):
+
+```json
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "docType": "SOAT",
+    "filename": "soat_abc123.pdf",
+    "expirationDate": "2025-12-31",
+    "uploadedAt": "2025-10-26T10:45:00Z"
+  }
+]
+```
+
+---
+
+### 10) Descargar Documento
+
+#### GET `/api/vehicles/{id}/documents/{docId}`
+
+**Ejemplo**: `GET /api/vehicles/2001/documents/550e8400-e29b-41d4-a716-446655440000`
+
+**Respuesta**: archivo binario con headers:
+
+* `Content-Disposition: attachment; filename="soat_abc123.pdf"`
+* `Content-Type: application/pdf`
+* `Content-Length: 245678`
+
+**Errores**:
+
+* `404` - Documento no encontrado o no pertenece al vehículo especificado
+
+---
+
+## Módulo de Checklists
 
 Esta guía documenta **los endpoints reales** del backend (Spring Boot) para el **módulo de Checklists**, con ejemplos detallados para Postman y reglas de negocio para que Frontend pueda simular **situaciones reales**.
 
@@ -12,16 +412,11 @@ Esta guía documenta **los endpoints reales** del backend (Spring Boot) para el 
 * Severidad (`SeverityOptions`): `LOW | MEDIUM | HIGH | CRITICAL`.
 * Estado de instancia (`InstanceStatus`): `PENDING | IN_PROGRESS | SUBMITTED | APPROVED | REJECTED | EXPIRED`.
 
-## 1) Base URL + Autenticación
+---
 
-* Base URL: `{{baseUrl}}` (ej.: `http://localhost:8080`).
-* Autenticación: header `Authorization: Bearer {{token}}` (si está habilitado).
+### 1) Plantillas publicadas
 
-> En la colección Postman adjunta ya se incluye el header `Authorization` como variable.
-
-## 2) Plantillas publicadas
-
-### GET `/api/checklists/templates/{templateCode}/versions/published`
+#### GET `/api/checklists/templates/{templateCode}/versions/published`
 
 Devuelve el **diseño publicado** (secciones, ítems, catálogos) con `ETag (versionHash)` y `Last-Modified (publishedAt)` para cache condicional.
 
@@ -341,7 +736,9 @@ Cache-Control: max-age=3600
 | WheelPositions    | EJE2_IZQ       | Eje 2 izquierda          |
 | WheelPositions    | EJE2_DER       | Eje 2 derecha            |
 
-## 3) Instancias
+---
+
+### 2) Instancias
 
 ### POST `/api/checklists/instances`
 
@@ -446,7 +843,7 @@ Location: /api/checklists/instances/1001
 
 ---
 
-### GET `/api/checklists/drivers/{driverId}/instances/pending/payload`
+#### GET `/api/checklists/drivers/{driverId}/instances/pending/payload`
 
 Recupera la instancia abierta del conductor con progreso actual y tiempo restante. **Útil para retomar un checklist en curso.**
 
