@@ -80,10 +80,9 @@ Authorization: Bearer {{token}}
       { "id": 3, "code": "OUT_OF_SERVICE", "name": "Fuera de servicio", "description": "No operativo" }
     ],
     "conditions": [
-      { "id": 1, "code": "EXCELLENT", "name": "Excelente", "order": 1 },
-      { "id": 2, "code": "GOOD", "name": "Bueno", "order": 2 },
-      { "id": 3, "code": "FAIR", "name": "Regular", "order": 3 },
-      { "id": 4, "code": "POOR", "name": "Malo", "order": 4 }
+      { "id": 1, "code": "APTO", "name": "Apto", "order": 0 },
+      { "id": 2, "code": "APTO_RESTRICCIONES", "name": "Apto con restricciones", "order": 1 },
+      { "id": 3, "code": "NO_APTO", "name": "No apto", "order": 2 }
     ]
   },
   "validationRules": {
@@ -154,8 +153,8 @@ Authorization: Bearer {{token}}
   "statusCode": "ACTIVE",
   "statusName": "Activo",
   "conditionId": 2,
-  "conditionCode": "GOOD",
-  "conditionName": "Bueno",
+  "conditionCode": "APTO_RESTRICCIONES",
+  "conditionName": "Apto con restricciones",
   "vin": "1HGBH41JXMN109186",
   "color": "Blanco",
   "currentOdometer": 45000,
@@ -209,7 +208,7 @@ Authorization: Bearer {{token}}
       "modelName": "Corolla",
       "modelYear": 2020,
       "statusCode": "ACTIVE",
-      "conditionCode": "GOOD",
+      "conditionCode": "APTO_RESTRICCIONES",
       "daysToSoatExpiration": 68,
       "daysToRtmExpiration": 37
     }
@@ -290,7 +289,7 @@ Obtiene vehículos cuyo SOAT o RTM vence en los próximos N días.
     "make": "Toyota",
     "model": "Corolla",
     "statusCode": "ACTIVE",
-    "conditionCode": "GOOD",
+    "conditionCode": "APTO_RESTRICCIONES",
     "soatExpirationDate": "2025-12-31",
     "rtmExpirationDate": "2025-11-05",
     "daysToSoat": 68,

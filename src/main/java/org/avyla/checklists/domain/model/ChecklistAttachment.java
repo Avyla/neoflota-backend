@@ -50,7 +50,7 @@ public class ChecklistAttachment {
 
     @JdbcTypeCode(SqlTypes.BINARY)
     @Basic(fetch = FetchType.LAZY)
-    @Column(nullable = false)
+    @Column(name = "data", nullable = false)
     private byte[] data;
 
     @ManyToOne(fetch = FetchType.LAZY)

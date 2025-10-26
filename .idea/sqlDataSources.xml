@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="eb0696a7-32c2-4fdc-a5b7-ffc6d011bfe6" name="neoflota_db@localhost Mapping">
+      <data-sources db="ebf1f28a-3e59-49fb-ad56-ffd2ded869a6" ddl="3aa5ab07-d9e9-4616-b5f9-b4ce61f2cb4b" />
+      <scope>
+        <node kind="database" qname="neoflota_db">
+          <node kind="schema" negative="1" />
+        </node>
+      </scope>
+    </mapping>
+  </component>
+</project>

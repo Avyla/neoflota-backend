@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select v from Vehicle v where v.id = :id")
+    @Query("select v from Vehicle v where v.vehicleId = :id")
     Optional<Vehicle> findByIdForUpdate(@Param("id") Long id);
 
     @Query("""

@@ -258,14 +258,13 @@ INSERT INTO vehicle_status(code, name, description) VALUES
 ('SOLD',     'Vendido',         'El vehículo ya no pertenece a la flota.')
 ON CONFLICT (code) DO NOTHING;
 
--- Condición física (Bueno/Regular/Malo/No aplica)
+-- Condición operativa (Apto/Apto con restricciones/No apto)
+-- Estos códigos coinciden con los resultados del checklist
 INSERT INTO vehicle_condition(code, name, order_index) VALUES
-('GOOD','Bueno',0),
-('FAIR','Regular',1),
-('BAD','Malo',2),
-('NA','No aplica',3)
+('APTO','Apto',0),
+('APTO_RESTRICCIONES','Apto con restricciones',1),
+('NO_APTO','No apto',2)
 ON CONFLICT (code) DO NOTHING;
-
 -- ============================================================================
 -- Notas para el equipo (documentación)
 -- ---------------------------------------------------------------------------

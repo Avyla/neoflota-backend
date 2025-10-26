@@ -331,15 +331,10 @@ public class ChecklistService {
                 .orElseThrow(() -> new NotFoundException("Instancia no encontrada"));
 
         ensureNotExpired(inst);
-
-        // 1) Validar pre-condiciones (evidencias, etc) Antes de marcar SUBMITTED
         enforceEvidenceRules(inst);
 
-        // 2) Se fia la condicion de instancia  (ENUM -> String)
-        if (req == null || req.conditionGeneral() == null) {
-            throw new BadRequestException("conditionGeneral inválido o ausente (APTO | APTO_RESTRICCIONES | NO_APTO)");
-        }
-        inst.setConditionGeneral(req.conditionGeneral().name());
+        String calculatedCondition = calculateConditionGeneral(inst);
+        inst.setConditionGeneral(calculatedCondition);
 
         // 3) Se marca el estado de la instancia
         inst.setStatus(InstanceStatus.SUBMITTED);
@@ -371,6 +366,33 @@ public class ChecklistService {
         }
 
         instanceRepo.save(inst);
+    }
+
+    //Calculo de condicion
+
+    private String calculateConditionGeneral(ChecklistInstance inst){
+        var responses =  responseRepo.findByInstance_Id(inst.getId());
+
+        long criticalNoop = responses.stream()
+                .filter(r -> r.getItem().getSeverity().equals("CRITICAL") &&
+                        r.getSelectedOption().getCode().equals("NOOP"))
+                .count();
+        if (criticalNoop > 0){
+            return "NO_APTO";
+        }
+        long anyObs = responses.stream()
+                .filter(r -> r.getSelectedOption().getCode().equals("OBS"))
+                .count();
+
+        long anyNoop = responses.stream()
+                .filter(r -> r.getSelectedOption().getCode().equals("NOOP"))
+                .count();
+
+        if (anyObs > 0 || anyNoop > 0) {
+            return "APTO_RESTRICCIONES";
+        }
+
+        return "APTO";
     }
 
     /* =========================
