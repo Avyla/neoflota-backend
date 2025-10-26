@@ -75,9 +75,10 @@ Authorization: Bearer {{token}}
       { "id": 4, "name": "Híbrido" }
     ],
     "statuses": [
-      { "id": 1, "code": "ACTIVE", "name": "Activo", "description": "Vehículo en operación" },
-      { "id": 2, "code": "MAINTENANCE", "name": "Mantenimiento", "description": "En taller" },
-      { "id": 3, "code": "OUT_OF_SERVICE", "name": "Fuera de servicio", "description": "No operativo" }
+      { "id": 1, "code": "ACTIVE", "name": "Activo", "description": "Vehículo en operación y disponible." },
+      { "id": 2, "code": "IN_REPAIR", "name": "En mantenimiento", "description": "El vehiculo se encuentra en taller o reparacion." },
+      { "id": 3, "code": "INACTIVE", "name": "Inactivo", "description": "El vehiculo se encuentra fuera de servicio" },
+      { "id": 4, "code": "SOLD", "name": "Vendido", "description": "El vehiculo ya no pertenece a la flota." }
     ],
     "conditions": [
       { "id": 1, "code": "APTO", "name": "Apto", "order": 0 },
