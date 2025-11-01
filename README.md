@@ -1,6 +1,6 @@
-# NeoFlota Backend – Guía de Integración Frontend
+# NeoFlota Backend
 
-Documentación de endpoints REST para integración con el frontend.
+Documentación de endpoints REST para integracion.
 
 **Backend**: Spring Boot | **Base URL**: `http://localhost:8080`
 
@@ -54,50 +54,214 @@ Authorization: Bearer {{token}}
 {
   "catalogs": {
     "makes": [
-      { "id": 1, "name": "Toyota" },
-      { "id": 2, "name": "Chevrolet" },
-      { "id": 3, "name": "Mazda" }
+      {
+        "id": 2,
+        "name": "Chevrolet"
+      },
+      {
+        "id": 3,
+        "name": "Ford"
+      },
+      {
+        "id": 7,
+        "name": "Hyundai"
+      },
+      {
+        "id": 12,
+        "name": "International"
+      },
+      {
+        "id": 11,
+        "name": "Kenworth"
+      },
+      {
+        "id": 6,
+        "name": "Kia"
+      },
+      {
+        "id": 5,
+        "name": "Mazda"
+      },
+      {
+        "id": 10,
+        "name": "Mercedes-Benz"
+      },
+      {
+        "id": 4,
+        "name": "Nissan"
+      },
+      {
+        "id": 8,
+        "name": "Renault"
+      },
+      {
+        "id": 1,
+        "name": "Toyota"
+      },
+      {
+        "id": 9,
+        "name": "Volkswagen"
+      }
     ],
     "types": [
-      { "id": 1, "name": "Automóvil" },
-      { "id": 2, "name": "Camioneta" },
-      { "id": 3, "name": "Camión" }
+      {
+        "id": 9,
+        "name": "Automóvil"
+      },
+      {
+        "id": 1,
+        "name": "Camión estacas"
+      },
+      {
+        "id": 4,
+        "name": "Camión furgón"
+      },
+      {
+        "id": 3,
+        "name": "Camión palet o de reparto"
+      },
+      {
+        "id": 2,
+        "name": "Camión silo granelero o tanque"
+      },
+      {
+        "id": 7,
+        "name": "Camioneta"
+      },
+      {
+        "id": 8,
+        "name": "Campero"
+      },
+      {
+        "id": 5,
+        "name": "Doble troque"
+      },
+      {
+        "id": 10,
+        "name": "Tractocamión"
+      },
+      {
+        "id": 6,
+        "name": "Volqueta platón"
+      }
     ],
     "categories": [
-      { "id": 1, "name": "Particular" },
-      { "id": 2, "name": "Público" },
-      { "id": 3, "name": "Oficial" }
+      {
+        "id": 3,
+        "name": "Automóvil, campero, camioneta"
+      },
+      {
+        "id": 2,
+        "name": "Carga refrigerante"
+      },
+      {
+        "id": 1,
+        "name": "Carga seca"
+      },
+      {
+        "id": 4,
+        "name": "Maquinaria amarilla"
+      }
     ],
     "fuelTypes": [
-      { "id": 1, "name": "Gasolina" },
-      { "id": 2, "name": "Diesel" },
-      { "id": 3, "name": "Eléctrico" },
-      { "id": 4, "name": "Híbrido" }
+      {
+        "id": 2,
+        "name": "Diesel"
+      },
+      {
+        "id": 3,
+        "name": "Eléctrico"
+      },
+      {
+        "id": 5,
+        "name": "Gas Natural Vehicular (GNV)"
+      },
+      {
+        "id": 1,
+        "name": "Gasolina"
+      },
+      {
+        "id": 4,
+        "name": "Híbrido"
+      }
     ],
     "statuses": [
-      { "id": 1, "code": "ACTIVE", "name": "Activo", "description": "Vehículo en operación y disponible." },
-      { "id": 2, "code": "IN_REPAIR", "name": "En mantenimiento", "description": "El vehiculo se encuentra en taller o reparacion." },
-      { "id": 3, "code": "INACTIVE", "name": "Inactivo", "description": "El vehiculo se encuentra fuera de servicio" },
-      { "id": 4, "code": "SOLD", "name": "Vendido", "description": "El vehiculo ya no pertenece a la flota." }
+      {
+        "id": 1,
+        "code": "ACTIVE",
+        "name": "Activo",
+        "description": "El vehículo está operativo y disponible."
+      },
+      {
+        "id": 2,
+        "code": "IN_REPAIR",
+        "name": "En mantenimiento",
+        "description": "El vehículo se encuentra en taller o reparación."
+      },
+      {
+        "id": 3,
+        "code": "INACTIVE",
+        "name": "Inactivo",
+        "description": "El vehículo está fuera de servicio."
+      },
+      {
+        "id": 4,
+        "code": "SOLD",
+        "name": "Vendido",
+        "description": "El vehículo ya no pertenece a la flota."
+      }
     ],
     "conditions": [
-      { "id": 1, "code": "APTO", "name": "Apto", "order": 0 },
-      { "id": 2, "code": "APTO_RESTRICCIONES", "name": "Apto con restricciones", "order": 1 },
-      { "id": 3, "code": "NO_APTO", "name": "No apto", "order": 2 }
+      {
+        "id": 1,
+        "code": "APTO",
+        "name": "Apto",
+        "order": 0
+      },
+      {
+        "id": 2,
+        "code": "APTO_RESTRICCIONES",
+        "name": "Apto con restricciones",
+        "order": 1
+      },
+      {
+        "id": 3,
+        "code": "NO_APTO",
+        "name": "No apto",
+        "order": 2
+      }
     ]
   },
   "validationRules": {
     "plate": {
       "pattern": "^(?:[A-Z]{3}[0-9]{3}|[A-Z]{3}[0-9]{2}[A-Z])$",
-      "format": "ABC123 o ABC12D",
-      "description": "3 letras seguidas de 3 números, o 3 letras, 2 números y 1 letra",
-      "examples": ["ABC123", "XYZ45D"]
+      "format": "Formato Colombia sin guion",
+      "description": "Placa debe ser ABC123 (vehículos) o ABC12D (motos), solo mayúsculas sin guion",
+      "examples": [
+        "ABC123",
+        "XYZ456",
+        "DEF12G"
+      ]
     },
-    "modelYear": { "min": 1950, "max": 2099 },
-    "odometer": { "min": 0, "unit": "km" },
-    "requiredFields": ["plate", "makeId", "modelName", "typeId", "categoryId", "fuelTypeId", "statusId"]
+    "modelYear": {
+      "min": 1950,
+      "max": 2099
+    },
+    "odometer": {
+      "min": 0,
+      "unit": "kilómetros"
+    },
+    "requiredFields": [
+      "plate",
+      "makeId",
+      "modelName",
+      "typeId",
+      "categoryId",
+      "fuelTypeId",
+      "statusId"
+    ]
   },
-  "version": "abc123def456"
+  "version": "ffa33f2101b55084"
 }
 ```
 
@@ -452,166 +616,619 @@ Cache-Control: max-age=3600
 ```json
 {
   "templateCode": "CHK_PREOP_VEH_GEN",
-  "versionId": 100,
+  "versionId": 1,
   "versionLabel": "1.1",
-  "publishedAt": "2024-10-26T10:00:00Z",
-  "versionHash": "sha256-a1b2c3d4e5f6g7h8i9j0",
+  "publishedAt": "2025-10-26T19:54:24.246929Z",
+  "versionHash": "9ec584bc2725c8cc92118dc29cba3ace7e87bc387e376199b2f3180de6485629",
   "stateOptions": [
-    {
-      "code": "OK",
-      "label": "OK",
-      "order": 0
-    },
-    {
-      "code": "OBS",
-      "label": "Observación",
-      "order": 1
-    },
-    {
-      "code": "NOOP",
-      "label": "No operativo",
-      "order": 2
-    },
-    {
-      "code": "NA",
-      "label": "N/A",
-      "order": 3
-    }
+    "OK",
+    "OBS",
+    "NOOP",
+    "NA"
   ],
+  "detailCatalogs": {
+    "InstrumentFaults": [
+      {
+        "code": "VELOCIMETRO",
+        "label": "Velocímetro",
+        "order": 1
+      },
+      {
+        "code": "TACOMETRO",
+        "label": "Tacómetro",
+        "order": 2
+      },
+      {
+        "code": "ACEITE",
+        "label": "Indicador de aceite",
+        "order": 3
+      },
+      {
+        "code": "TEMPERATURA",
+        "label": "Indicador de temperatura",
+        "order": 4
+      },
+      {
+        "code": "COMBUSTIBLE",
+        "label": "Nivel de combustible",
+        "order": 5
+      }
+    ],
+    "ExternalLights": [
+      {
+        "code": "BAJAS",
+        "label": "Bajas",
+        "order": 1
+      },
+      {
+        "code": "MEDIAS_ALTAS",
+        "label": "Medias/Altas",
+        "order": 2
+      },
+      {
+        "code": "DIR_DEL",
+        "label": "Direccionales delanteras",
+        "order": 3
+      },
+      {
+        "code": "DIR_TRAS",
+        "label": "Direccionales traseras",
+        "order": 4
+      },
+      {
+        "code": "PARQUEO",
+        "label": "Parqueo",
+        "order": 5
+      },
+      {
+        "code": "EXPLORADORAS",
+        "label": "Exploradoras/Antiniebla",
+        "order": 6
+      },
+      {
+        "code": "REVERSA",
+        "label": "Reversa",
+        "order": 7
+      }
+    ],
+    "WheelPositions": [
+      {
+        "code": "DEL_IZQ",
+        "label": "Delantera izquierda",
+        "order": 1
+      },
+      {
+        "code": "DEL_DER",
+        "label": "Delantera derecha",
+        "order": 2
+      },
+      {
+        "code": "TRAS_IZQ",
+        "label": "Trasera izquierda",
+        "order": 3
+      },
+      {
+        "code": "TRAS_DER",
+        "label": "Trasera derecha",
+        "order": 4
+      },
+      {
+        "code": "EJE2_IZQ",
+        "label": "Eje 2 izquierda",
+        "order": 5
+      },
+      {
+        "code": "EJE2_DER",
+        "label": "Eje 2 derecha",
+        "order": 6
+      }
+    ],
+    "RegulatoryItems": [
+      {
+        "code": "CRUCETA",
+        "label": "Cruceta/Copa",
+        "order": 1
+      },
+      {
+        "code": "TACOS",
+        "label": "2 tacos de bloqueo",
+        "order": 2
+      },
+      {
+        "code": "SENALES",
+        "label": "2 señales de carretera",
+        "order": 3
+      },
+      {
+        "code": "LINTERNA",
+        "label": "Linterna",
+        "order": 4
+      },
+      {
+        "code": "HERRAMIENTAS",
+        "label": "Caja de herramientas",
+        "order": 5
+      },
+      {
+        "code": "CHALECO",
+        "label": "Chaleco reflectivo",
+        "order": 6
+      },
+      {
+        "code": "GUANTES",
+        "label": "Guantes de vaqueta",
+        "order": 7
+      }
+    ],
+    "SuspensionAreas": [
+      {
+        "code": "DEL",
+        "label": "Delantera",
+        "order": 1
+      },
+      {
+        "code": "TRAS",
+        "label": "Trasera",
+        "order": 2
+      }
+    ],
+    "FirstAidItems": [
+      {
+        "code": "ALCOHOL",
+        "label": "Alcohol antiséptico",
+        "order": 1
+      },
+      {
+        "code": "BAJALENGUAS",
+        "label": "Depresores linguales",
+        "order": 2
+      },
+      {
+        "code": "ESPARADRAPO",
+        "label": "Esparadrapo",
+        "order": 3
+      },
+      {
+        "code": "GASAS",
+        "label": "Gasas estériles",
+        "order": 4
+      },
+      {
+        "code": "VENDAJES",
+        "label": "Vendajes",
+        "order": 5
+      },
+      {
+        "code": "CURAS",
+        "label": "Curas",
+        "order": 6
+      },
+      {
+        "code": "AGUA",
+        "label": "Agua potable",
+        "order": 7
+      }
+    ],
+    "OtherFluids": [
+      {
+        "code": "HIDRAULICO",
+        "label": "Aceite hidráulico",
+        "order": 1
+      },
+      {
+        "code": "AGUA_PLUMILLAS",
+        "label": "Agua para plumillas",
+        "order": 2
+      },
+      {
+        "code": "BATERIA",
+        "label": "Agua de batería",
+        "order": 3
+      }
+    ],
+    "SeatbeltPositions": [
+      {
+        "code": "PILOTO",
+        "label": "Piloto",
+        "order": 1
+      },
+      {
+        "code": "COPILOTO",
+        "label": "Copiloto",
+        "order": 2
+      },
+      {
+        "code": "TRASEROS",
+        "label": "Traseros",
+        "order": 3
+      }
+    ]
+  },
   "sections": [
     {
-      "id": 50,
-      "code": "PRESENTACION_CONFORT",
-      "title": "Presentación y confort",
-      "order": 0,
-      "items": [
-        {
-          "id": 501,
-          "code": "CONF_ASEO",
-          "label": "Aseo y presentación (int/ext)",
-          "severity": "LOW",
-          "required": false,
-          "allowNA": false,
-          "hasDetails": false,
-          "detailCatalog": null,
-          "helpText": null,
-          "order": 0
-        }
-      ]
-    },
-    {
-      "id": 51,
-      "code": "FLUIDOS",
-      "title": "Fluidos",
+      "id": 2,
+      "code": "SEC_ROD_FRE",
+      "title": "Rodadura y frenos",
       "order": 1,
       "items": [
         {
-          "id": 510,
-          "code": "FLU_ACEITE_MOTOR",
-          "label": "Aceite de motor",
+          "code": "ROD_LLANTAS",
+          "label": "Llantas (estado general)",
+          "required": true,
+          "allowNA": false,
           "severity": "HIGH",
-          "required": true,
-          "allowNA": false,
-          "hasDetails": false,
-          "detailCatalog": null,
-          "helpText": "Verificar nivel en varilla, debe estar entre MIN-MAX",
-          "order": 0
-        },
-        {
-          "id": 511,
-          "code": "FLU_LIQ_FRENOS",
-          "label": "Líquido de frenos",
-          "severity": "CRITICAL",
-          "required": true,
-          "allowNA": false,
-          "hasDetails": false,
-          "detailCatalog": null,
-          "helpText": "Nivel debe estar en depósito. Si está en NOOP requiere evidencia.",
-          "order": 1
-        },
-        {
-          "id": 512,
-          "code": "FLU_OTROS",
-          "label": "Otros fluidos",
-          "severity": "MEDIUM",
-          "required": false,
-          "allowNA": false,
           "hasDetails": true,
-          "detailCatalog": "OtherFluids",
-          "helpText": null,
-          "order": 3
+          "detailCatalog": "WheelPositions",
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "ROD_RINES",
+          "label": "Rines (deformación/daño)",
+          "required": true,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": true,
+          "detailCatalog": "WheelPositions",
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "ROD_FRENOS_SISTEMA",
+          "label": "Frenos (sistema)",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 3,
+          "helpText": null
+        },
+        {
+          "code": "ROD_FRENO_MANO",
+          "label": "Freno de mano",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 4,
+          "helpText": null
         }
       ]
     },
     {
-      "id": 56,
-      "code": "RODADURA_FRENOS",
-      "title": "Rodadura y frenos",
+      "id": 6,
+      "code": "SEC_SEG",
+      "title": "Seguridad activa/pasiva",
+      "order": 2,
+      "items": [
+        {
+          "code": "SEG_DIRECCION",
+          "label": "Dirección",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "SEG_SUSPENSION",
+          "label": "Suspensión",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": true,
+          "detailCatalog": "SuspensionAreas",
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "SEG_ESPEJOS_CRISTALES",
+          "label": "Espejos y cristales (visibilidad)",
+          "required": true,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 3,
+          "helpText": null
+        },
+        {
+          "code": "SEG_LIMPIA",
+          "label": "Limpiaparabrisas (plumillas + lava)",
+          "required": true,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 4,
+          "helpText": null
+        },
+        {
+          "code": "SEG_CINTURONES",
+          "label": "Cinturones de seguridad",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": true,
+          "detailCatalog": "SeatbeltPositions",
+          "order": 5,
+          "helpText": null
+        },
+        {
+          "code": "SEG_AIRBAGS",
+          "label": "Airbags (si aplica)",
+          "required": false,
+          "allowNA": true,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 6,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "code": "SEC_FLU",
+      "title": "Fluidos",
+      "order": 3,
+      "items": [
+        {
+          "code": "FLU_ACEITE_MOTOR",
+          "label": "Aceite de motor",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "FLU_LIQ_FRENOS",
+          "label": "Líquido de frenos",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "FLU_REFRIGERANTE",
+          "label": "Refrigerante (radiador)",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 3,
+          "helpText": null
+        },
+        {
+          "code": "FLU_OTROS",
+          "label": "Otros fluidos",
+          "required": false,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": true,
+          "detailCatalog": "OtherFluids",
+          "order": 4,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "code": "SEC_TAB",
+      "title": "Tablero e instrumentos",
+      "order": 4,
+      "items": [
+        {
+          "code": "TAB_INSTRUMENTOS",
+          "label": "Instrumentos / indicadores",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": true,
+          "detailCatalog": "InstrumentFaults",
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "TAB_PITO",
+          "label": "Pito (bocina)",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 2,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "code": "SEC_LUZ",
+      "title": "Luces",
+      "order": 5,
+      "items": [
+        {
+          "code": "LUZ_EXTERNAS",
+          "label": "Luces externas (conjunto)",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": true,
+          "detailCatalog": "ExternalLights",
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "LUZ_FRENO",
+          "label": "Luz de freno",
+          "required": true,
+          "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 2,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "code": "SEC_CONF",
+      "title": "Presentación y confort",
       "order": 6,
       "items": [
         {
-          "id": 560,
-          "code": "ROD_LLANTAS",
-          "label": "Llantas (estado general)",
-          "severity": "HIGH",
+          "code": "CONF_ASEO",
+          "label": "Aseo y presentación (int/ext)",
+          "required": false,
+          "allowNA": false,
+          "severity": "LOW",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "CONF_CLIMA",
+          "label": "Climatización (A/C y ventilación)",
+          "required": false,
+          "allowNA": false,
+          "severity": "LOW",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "CONF_CABINA",
+          "label": "Cabina (sillas y luces internas)",
+          "required": false,
+          "allowNA": false,
+          "severity": "LOW",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 3,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "code": "SEC_REG",
+      "title": "Equipo reglamentario y botiquín",
+      "order": 7,
+      "items": [
+        {
+          "code": "REG_EXTINTOR",
+          "label": "Extintor (presencia/vigencia)",
           "required": true,
           "allowNA": false,
+          "severity": "CRITICAL",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "REG_EQUIPO",
+          "label": "Equipo reglamentario",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
           "hasDetails": true,
-          "detailCatalog": "WheelPositions",
-          "helpText": "Verificar profundidad de labrado, desgaste irregular, grietas",
-          "order": 2
+          "detailCatalog": "RegulatoryItems",
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "REG_BOTIQUIN",
+          "label": "Botiquín vehicular",
+          "required": false,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": true,
+          "detailCatalog": "FirstAidItems",
+          "order": 3,
+          "helpText": null
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "code": "SEC_OTR",
+      "title": "Otros componentes",
+      "order": 8,
+      "items": [
+        {
+          "code": "OTR_ELECTRICO",
+          "label": "Sistema eléctrico (general)",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 1,
+          "helpText": null
+        },
+        {
+          "code": "OTR_TREN_MOTRIZ",
+          "label": "Tren motriz (transmisión/embrague/encendido)",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 2,
+          "helpText": null
+        },
+        {
+          "code": "OTR_EXOSTO",
+          "label": "Escape (exosto)",
+          "required": false,
+          "allowNA": false,
+          "severity": "MEDIUM",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 3,
+          "helpText": null
+        },
+        {
+          "code": "OTR_ALARMA_REVERSA",
+          "label": "Alarma de reversa (si aplica)",
+          "required": false,
+          "allowNA": true,
+          "severity": "MEDIUM",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 4,
+          "helpText": null
+        },
+        {
+          "code": "OTR_PLACAS",
+          "label": "Placas (legibilidad/presencia)",
+          "required": true,
+          "allowNA": false,
+          "severity": "HIGH",
+          "hasDetails": false,
+          "detailCatalog": null,
+          "order": 5,
+          "helpText": null
         }
       ]
     }
-  ],
-  "detailCatalogs": {
-    "ExternalLights": [
-      { "code": "BAJAS", "label": "Bajas", "order": 0 },
-      { "code": "MEDIAS_ALTAS", "label": "Medias/Altas", "order": 1 },
-      { "code": "DIR_DEL", "label": "Direccionales delanteras", "order": 2 },
-      { "code": "DIR_TRAS", "label": "Direccionales traseras", "order": 3 },
-      { "code": "PARQUEO", "label": "Parqueo", "order": 4 },
-      { "code": "EXPLORADORAS", "label": "Exploradoras/Antiniebla", "order": 5 },
-      { "code": "REVERSA", "label": "Reversa", "order": 6 }
-    ],
-    "WheelPositions": [
-      { "code": "DEL_IZQ", "label": "Delantera izquierda", "order": 0 },
-      { "code": "DEL_DER", "label": "Delantera derecha", "order": 1 },
-      { "code": "TRAS_IZQ", "label": "Trasera izquierda", "order": 2 },
-      { "code": "TRAS_DER", "label": "Trasera derecha", "order": 3 },
-      { "code": "EJE2_IZQ", "label": "Eje 2 izquierda", "order": 4 },
-      { "code": "EJE2_DER", "label": "Eje 2 derecha", "order": 5 }
-    ],
-    "OtherFluids": [
-      { "code": "HIDRAULICO", "label": "Aceite hidráulico", "order": 0 },
-      { "code": "AGUA_PLUMILLAS", "label": "Agua para plumillas", "order": 1 },
-      { "code": "BATERIA", "label": "Agua de batería", "order": 2 }
-    ],
-    "FirstAidItems": [
-      { "code": "ALCOHOL", "label": "Alcohol antiséptico", "order": 0 },
-      { "code": "GASAS", "label": "Gasas estériles", "order": 3 },
-      { "code": "VENDAJES", "label": "Vendajes", "order": 4 }
-    ],
-    "InstrumentFaults": [
-      { "code": "VELOCIMETRO", "label": "Velocímetro", "order": 0 },
-      { "code": "ACEITE", "label": "Indicador de aceite", "order": 2 },
-      { "code": "TEMPERATURA", "label": "Indicador de temperatura", "order": 3 }
-    ],
-    "RegulatoryItems": [
-      { "code": "CRUCETA", "label": "Cruceta/Copa", "order": 0 },
-      { "code": "TACOS", "label": "2 tacos de bloqueo", "order": 1 },
-      { "code": "CHALECO", "label": "Chaleco reflectivo", "order": 5 }
-    ],
-    "SeatbeltPositions": [
-      { "code": "PILOTO", "label": "Piloto", "order": 0 },
-      { "code": "COPILOTO", "label": "Copiloto", "order": 1 },
-      { "code": "TRASEROS", "label": "Traseros", "order": 2 }
-    ],
-    "SuspensionAreas": [
-      { "code": "DEL", "label": "Delantera", "order": 0 },
-      { "code": "TRAS", "label": "Trasera", "order": 1 }
-    ]
-  }
+  ]
 }
 ```
 
