@@ -4,6 +4,9 @@ spring:
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:elliam012}
 
+  application:
+    name: neoflota-backend
+
   servlet:
     multipart:
       max-file-size: 5MB
@@ -18,7 +21,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -34,5 +37,41 @@ spring:
     baseline-description: "manual baseline checklists v1"
     out-of-order: false
 
-server:
-  port: ${PORT:8080}
+  server:
+    port: ${PORT:8080}
+
+security:
+  jwt:
+    key:
+      private: "MIICWwIBAAKBgQCtYo32glu50D5XU3e7jk5RW3OvmmSIA4RxvS2N7acGixkvRkkn2yIGQXGhMmWzU6dT4gKEdsdJugP7iv5ornIs+VNLzunXLGu+qTHeG5BQJneugeTdSNZsu4cf7j0XrHo0mDONExkvKiXsG32XqqZ/8QJx9WZA3U+QV4JHrHd82wIDAQABAn8ArWHglKHHGAkmTi0pjmS/7JuHFBNQdLMPvq1u4H7Gh8SRarTecvyvCZJoDspW6Py+VyOrYMtmflOFqAVWY1gO00QrvPO93iuy5dQCQGZ64qmDjWaozOdnf73C2ZFaWcw052ReKRvPvoVoQYrhTN6ALcL5/Pw1J/oQ/Cf5XXB5AkEA4XIV80lGISHEB8vMAe02bMN+g04k8RpzloqS78ILcW7NfP3aC0Yiu4eN52epFkUNnwv1OG5VSxTs36ahUDCe3wJBAMTiNLwlvyG46Rp9/bDn0JVN+RRghMeHkf+59apHIRR8s4HwJY3aMhl3l0DzFtSUZg7OvMbFx2MBrT7mIPJwbYUCQQC6kguQVuduq97rBMFEJuePgwnD6Hux/E4EG5IWUOPfb+8mrX4xLk24HCpXgvXvtB3drau2k7iKdjrBq8h78IDJAkAfUwom4S6Os/fKcj85tTg3eQdnGZAmmsg80p5mcBiwRMLeqpGfBxcvfBqBh+ua+N1f/76DNZZqhyrENiMJz59tAkEAkbjouc73fd5LPaOH/4cAyAHTIfKaOIoq5l97a1ttm9sec5hb7AylfG/Z8sluHWNtMCf01LR6t+NmHtVsACorbg=="
+    user:
+      generator: "AUTH0JWT-BACKEND"
+
+config:
+  activate:
+    on-profile: dev
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:5173
+    - http://localhost:8081
+    - http://127.0.0.1:3000
+    - capacitor://localhost
+    - ionic://localhost
+    - http://localhost
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+  allowed-headers:
+    - Authorization
+    - Content-Type
+    - Accept
+    - X-Requested-With
+  exposed-headers:
+    - Authorization
+  allow-credentials: false
+  max-age: 3600

@@ -2,6 +2,7 @@ package org.avyla.vehicles.api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.avyla.security.application.service.CurrentUserService;
 import org.avyla.vehicles.api.dto.VehicleCreateRequest;
 import org.avyla.vehicles.api.dto.VehicleDetailResponse;
 import org.avyla.vehicles.api.dto.VehicleSummaryDto;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -37,7 +39,7 @@ import java.util.List;
 public class VehicleCrudController {
 
     private final VehicleService vehicleService;
-    private final VehicleRepository vehicleRepo;
+    private final CurrentUserService currentUserService;
 
     /**
      * Crea un nuevo vehículo.
@@ -46,7 +48,7 @@ public class VehicleCrudController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public VehicleDetailResponse create(@Valid @RequestBody VehicleCreateRequest request) {
-        Long currentUserId = 1L; // TODO: Obtener del contexto de seguridad
+        Long currentUserId = currentUserService.getCurrentUserId();
         return vehicleService.create(request, currentUserId);
     }
 
@@ -68,7 +70,7 @@ public class VehicleCrudController {
             @PathVariable Long id,
             @Valid @RequestBody VehicleUpdateRequest request
     ) {
-        Long currentUserId = 1L; // TODO: Obtener del contexto de seguridad
+        Long currentUserId = currentUserService.getCurrentUserId();
         return vehicleService.update(id, request, currentUserId);
     }
 
@@ -79,7 +81,7 @@ public class VehicleCrudController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivate(@PathVariable Long id) {
-        Long currentUserId = 1L; // TODO: Obtener del contexto de seguridad
+        Long currentUserId = currentUserService.getCurrentUserId();
         vehicleService.deactivate(id, currentUserId);
     }
 
@@ -90,7 +92,7 @@ public class VehicleCrudController {
     @PatchMapping("/{id}/activate")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void activate(@PathVariable Long id) {
-        Long currentUserId = 1L; // TODO: Obtener del contexto de seguridad
+        Long currentUserId = currentUserService.getCurrentUserId();
         vehicleService.activate(id, currentUserId);
     }
 
@@ -119,32 +121,7 @@ public class VehicleCrudController {
      */
     @GetMapping(params = "vencenEn")
     public List<VehicleSummaryDto> getExpiring(@RequestParam("vencenEn") int days) {
-        LocalDate limit = LocalDate.now().plusDays(days);
-        return vehicleRepo.findExpiringByDate(limit).stream()
-                .map(this::toSummary)
-                .toList();
+        return vehicleService.findExpiringByDate(days);
     }
 
-    /**
-     * Convierte Vehicle a VehicleSummaryDto (para alertas de vencimiento).
-     */
-    private VehicleSummaryDto toSummary(Vehicle v) {
-        Long soatDays = v.getSoatExpirationDate() == null ? null
-                : ChronoUnit.DAYS.between(LocalDate.now(), v.getSoatExpirationDate());
-        Long rtmDays = v.getRtmExpirationDate() == null ? null
-                : ChronoUnit.DAYS.between(LocalDate.now(), v.getRtmExpirationDate());
-
-        return VehicleSummaryDto.builder()
-                .id(v.getVehicleId())
-                .plate(v.getPlate())
-                .make(v.getMake() != null ? v.getMake().getName() : null)
-                .model(v.getModelName())
-                .statusCode(v.getStatus() != null ? v.getStatus().getCode() : null)
-                .conditionCode(v.getCondition() != null ? v.getCondition().getCode().name() : null)
-                .soatExpirationDate(v.getSoatExpirationDate())
-                .rtmExpirationDate(v.getRtmExpirationDate())
-                .daysToSoat(soatDays)
-                .daysToRtm(rtmDays)
-                .build();
-    }
 }

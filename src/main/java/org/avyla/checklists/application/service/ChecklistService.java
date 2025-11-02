@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.avyla.checklists.api.dto.InstanceDetailsResponse;
 import org.avyla.checklists.api.dto.PendingPayloadResponse;
 import org.avyla.checklists.api.dto.SaveResponsesRequest;
-import org.avyla.checklists.api.dto.SubmitRequest;
 import org.avyla.checklists.config.ChecklistProperties;
 import org.avyla.checklists.domain.model.*;
 import org.avyla.checklists.domain.repo.*;
@@ -13,6 +12,7 @@ import org.avyla.checklists.infrastructure.ResponseState;
 import org.avyla.checklists.infrastructure.SeverityOptions;
 import org.avyla.common.exceptions.BadRequestException;
 import org.avyla.common.exceptions.NotFoundException;
+import org.avyla.security.application.service.CurrentUserService;
 import org.avyla.vehicles.domain.repo.VehicleConditionRepository;
 import org.avyla.vehicles.domain.repo.VehicleRepository;
 import org.springframework.http.HttpStatus;
@@ -51,6 +51,8 @@ public class ChecklistService {
 
     private final VehicleRepository vehicleRepo; // repo para current_odometer
     private final VehicleConditionRepository vehicleConditionRepo;
+
+    private final CurrentUserService currentUserService;
 
     /* =========================
        Crear instancia (TTL + cooldown opcional)
@@ -326,7 +328,8 @@ public class ChecklistService {
        Submit (cerrar + evidencias + actualizar odómetro)
        ========================= */
     @Transactional
-    public void submit(Long instanceId, SubmitRequest req) {
+    public void submit(Long instanceId) {
+
         var inst = instanceRepo.findByIdForUpdate(instanceId)
                 .orElseThrow(() -> new NotFoundException("Instancia no encontrada"));
 
@@ -482,8 +485,7 @@ public class ChecklistService {
     }
 
     private Long currentUserId() {
-        // TODO: integrar con contexto de seguridad
-        return 1L;
+        return currentUserService.getCurrentUserId();
     }
 
     /**

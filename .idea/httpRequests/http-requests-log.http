@@ -1,3 +1,24 @@
+GET http://localhost:8080/api/checklists/templates/prueba
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+###
+
+GET http://localhost:8080/api/checklists/templates/prueba
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+###
+
+GET http://localhost:8080/api/checklists/templates/prueba
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.4
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+###
+
 GET http://localhost:8080/api/vehicles?includeInactive=false
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.4
 Accept-Encoding: br, deflate, gzip, x-gzip

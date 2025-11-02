@@ -2,10 +2,7 @@ package org.avyla.checklists.api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.avyla.checklists.api.dto.InstanceDetailsResponse;
-import org.avyla.checklists.api.dto.PendingPayloadResponse;
-import org.avyla.checklists.api.dto.SaveResponsesRequest;
-import org.avyla.checklists.api.dto.SubmitRequest;
+import org.avyla.checklists.api.dto.*;
 import org.avyla.checklists.application.service.ChecklistService;
 import org.avyla.checklists.infrastructure.InstanceStatus;
 import org.springframework.http.HttpStatus;
@@ -57,9 +54,9 @@ public class ChecklistController {
 
     @PostMapping("/instances/{id}/submit")
     @ResponseStatus(HttpStatus.OK)
-    public void submit(@PathVariable Long id, @RequestBody @Valid SubmitRequest req) {
-        service.submit(id, req);
+    public void submit(@PathVariable Long id) {
+        service.submit(id);
     }
 
-    private record CreateInstanceResponse(Long instanceId, InstanceStatus status, Instant startedAt, Instant dueAt) {}
+
 }

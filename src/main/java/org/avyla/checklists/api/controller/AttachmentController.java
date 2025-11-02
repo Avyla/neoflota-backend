@@ -4,7 +4,7 @@ package org.avyla.checklists.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.avyla.checklists.api.dto.ResponseAttachment;
 import org.avyla.checklists.application.service.AttachmentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.avyla.security.application.service.CurrentUserService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AttachmentController {
 
-    @Autowired
     private final AttachmentService service;
+    private final CurrentUserService currentUserService;
 
     // ===== Subir evidencia por RESPUESTA =====
     @PostMapping(value = "/checklists/responses/{responseId}/attachments",
@@ -29,9 +29,8 @@ public class AttachmentController {
     public ResponseEntity<ResponseAttachment> uploadForResponse(
             @PathVariable Long responseId,
             @RequestParam("file") MultipartFile file
-            // @AuthenticationPrincipal ... currentUser → aquí obtienes el userId real
-    ) {
-        Long currentUserId = 0L; // TODO: reemplaza por el id real del usuario autenticado
+            ) {
+        Long currentUserId = currentUserService.getCurrentUserId();
         var dto = service.uploadForResponse(responseId, file, currentUserId);
         return ResponseEntity.created(URI.create(dto.getUrl())).body(dto);
     }
@@ -42,7 +41,7 @@ public class AttachmentController {
     public ResponseEntity<ResponseAttachment> uploadForInstance(
             @PathVariable Long instanceId,
             @RequestParam("file") MultipartFile file) {
-        Long currentUserId = 0L; // TODO auth real
+        Long currentUserId = currentUserService.getCurrentUserId();
         var dto = service.uploadForInstance(instanceId, file, currentUserId);
         return ResponseEntity.created(URI.create(dto.getUrl())).body(dto);
     }

@@ -5,6 +5,7 @@ import org.avyla.common.exceptions.BadRequestException;
 import org.avyla.common.exceptions.NotFoundException;
 import org.avyla.vehicles.api.dto.VehicleCreateRequest;
 import org.avyla.vehicles.api.dto.VehicleDetailResponse;
+import org.avyla.vehicles.api.dto.VehicleSummaryDto;
 import org.avyla.vehicles.api.dto.VehicleUpdateRequest;
 import org.avyla.vehicles.domain.model.*;
 import org.avyla.vehicles.domain.repo.*;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -221,18 +223,22 @@ public class VehicleService {
     /**
      * Lista vehículos con paginación.
      * Por defecto solo trae activos, pero se puede incluir inactivos.
+     *
+     * @param pageable Configuración de paginación (página, tamaño, ordenamiento)
+     * @param includeInactive Si es true, incluye vehículos activos e inactivos; si es false, solo activos
+     * @return Página de vehículos con toda su información expandida
+     * @throws IllegalArgumentException si pageable es null
      */
     @Transactional(readOnly = true)
-    public Page<VehicleDetailResponse> list(Pageable pageable, Boolean includeInactive) {
-        Page<Vehicle> vehicles;
-
-        if (Boolean.TRUE.equals(includeInactive)) {
-            vehicles = vehicleRepo.findAll(pageable);
-        } else {
-            vehicles = vehicleRepo.findAll(pageable); // TODO: crear query findByActiveTrue
+    public Page<VehicleDetailResponse> list(Pageable pageable, boolean includeInactive) {
+        if(pageable == null){
+            pageable = Pageable.unpaged();
         }
+        Page<Vehicle> vehiclesPage = includeInactive
+                ? vehicleRepo.findAll(pageable)
+                : vehicleRepo.findByActive(true, pageable);
 
-        return vehicles.map(this::toDetailResponse);
+        return vehiclesPage.map(this::toDetailResponse);
     }
 
     /**
@@ -288,4 +294,35 @@ public class VehicleService {
                 .updatedAt(v.getUpdatedAt())
                 .build();
     }
+
+    public List<VehicleSummaryDto> findExpiringByDate(int days) {
+        LocalDate limit = LocalDate.now().plusDays(days);
+        return vehicleRepo.findExpiringByDate(limit).stream()
+                .map(this::toSummary)
+                .toList();
+    }
+
+    /**
+     * Convierte Vehicle a VehicleSummaryDto (para alertas de vencimiento).
+     */
+    private VehicleSummaryDto toSummary(Vehicle v) {
+        Long soatDays = v.getSoatExpirationDate() == null ? null
+                : ChronoUnit.DAYS.between(LocalDate.now(), v.getSoatExpirationDate());
+        Long rtmDays = v.getRtmExpirationDate() == null ? null
+                : ChronoUnit.DAYS.between(LocalDate.now(), v.getRtmExpirationDate());
+
+        return VehicleSummaryDto.builder()
+                .id(v.getVehicleId())
+                .plate(v.getPlate())
+                .make(v.getMake() != null ? v.getMake().getName() : null)
+                .model(v.getModelName())
+                .statusCode(v.getStatus() != null ? v.getStatus().getCode() : null)
+                .conditionCode(v.getCondition() != null ? v.getCondition().getCode().name() : null)
+                .soatExpirationDate(v.getSoatExpirationDate())
+                .rtmExpirationDate(v.getRtmExpirationDate())
+                .daysToSoat(soatDays)
+                .daysToRtm(rtmDays)
+                .build();
+    }
+
 }

@@ -5,6 +5,7 @@ import org.avyla.checklists.application.service.ChecklistTemplateQueryService;
 import org.avyla.checklists.api.dto.PublishedChecklistResponse;
 import org.avyla.common.exceptions.NotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 

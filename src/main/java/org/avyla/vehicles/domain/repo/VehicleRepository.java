@@ -2,9 +2,11 @@ package org.avyla.vehicles.domain.repo;
 
 
 import org.avyla.vehicles.domain.model.Vehicle;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
 
 import jakarta.persistence.LockModeType;
 
@@ -28,5 +30,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     List<Vehicle> findExpiringByDate(@Param("limitDate") java.time.LocalDate limitDate);
 
     Optional<Vehicle> findByPlate(String plate);
+
+    Page<Vehicle> findByActive(boolean active, Pageable pageable);
 
 }

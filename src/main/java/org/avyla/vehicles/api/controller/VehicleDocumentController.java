@@ -2,6 +2,7 @@ package org.avyla.vehicles.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.avyla.common.exceptions.BadRequestException;
+import org.avyla.security.application.service.CurrentUserService;
 import org.avyla.vehicles.api.dto.VehicleDocumentDtos;
 import org.avyla.vehicles.application.service.VehicleDocumentService;
 import org.avyla.vehicles.domain.model.VehicleDocument;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class VehicleDocumentController {
 
     private final VehicleDocumentService service;
+    private final CurrentUserService currentUserService;
 
     @PostMapping(value = "/{id}/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public VehicleDocumentDtos.UploadResponse upload(
@@ -33,7 +35,7 @@ public class VehicleDocumentController {
             @RequestParam(value = "expirationDate", required = false) LocalDate expirationDate,
             @RequestPart("file") MultipartFile file
     ) {
-        Long currentUserId = 1L; // TODO: tomar del contexto de seguridad
+        Long currentUserId = currentUserService.getCurrentUserId();
         return service.upload(vehicleId, docType, issuer, issuedAt, expirationDate, file, currentUserId);
     }
 

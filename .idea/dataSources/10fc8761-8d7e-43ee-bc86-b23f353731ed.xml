@@ -11,9 +11,8 @@
 4||10|c|G
 4||10|C|G
 4||10|T|G</Grants>
-      <IntrospectionStateNumber>1342</IntrospectionStateNumber>
       <ServerVersion>16.2</ServerVersion>
-      <StartupTime>1760775786</StartupTime>
+      <StartupTime>1761731591</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -808,7 +807,6 @@ false Zulu
 14697||10|C|G
 14697||-9223372036854775808|U|G
 14697||10|U|G</Grants>
-      <IntrospectionStateNumber>1342</IntrospectionStateNumber>
       <ObjectId>35611</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -817,56 +815,52 @@ false Zulu
       <ObjectId>5</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
-    <role id="4" parent="1" name="neoflota">
-      <CanLogin>1</CanLogin>
-      <ObjectId>27395</ObjectId>
-    </role>
-    <role id="5" parent="1" name="pg_checkpoint">
-      <ObjectId>4544</ObjectId>
-    </role>
-    <role id="6" parent="1" name="pg_create_subscription">
-      <ObjectId>6304</ObjectId>
-    </role>
-    <role id="7" parent="1" name="pg_database_owner">
+    <role id="4" parent="1" name="pg_database_owner">
       <ObjectId>6171</ObjectId>
     </role>
-    <role id="8" parent="1" name="pg_execute_server_program">
-      <ObjectId>4571</ObjectId>
+    <role id="5" parent="1" name="pg_read_all_data">
+      <ObjectId>6181</ObjectId>
     </role>
-    <role id="9" parent="1" name="pg_monitor">
+    <role id="6" parent="1" name="pg_write_all_data">
+      <ObjectId>6182</ObjectId>
+    </role>
+    <role id="7" parent="1" name="pg_monitor">
       <ObjectId>3373</ObjectId>
       <RoleGrants>3374
 3375
 3377</RoleGrants>
     </role>
-    <role id="10" parent="1" name="pg_read_all_data">
-      <ObjectId>6181</ObjectId>
-    </role>
-    <role id="11" parent="1" name="pg_read_all_settings">
+    <role id="8" parent="1" name="pg_read_all_settings">
       <ObjectId>3374</ObjectId>
     </role>
-    <role id="12" parent="1" name="pg_read_all_stats">
+    <role id="9" parent="1" name="pg_read_all_stats">
       <ObjectId>3375</ObjectId>
     </role>
-    <role id="13" parent="1" name="pg_read_server_files">
+    <role id="10" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+    </role>
+    <role id="11" parent="1" name="pg_read_server_files">
       <ObjectId>4569</ObjectId>
+    </role>
+    <role id="12" parent="1" name="pg_write_server_files">
+      <ObjectId>4570</ObjectId>
+    </role>
+    <role id="13" parent="1" name="pg_execute_server_program">
+      <ObjectId>4571</ObjectId>
     </role>
     <role id="14" parent="1" name="pg_signal_backend">
       <ObjectId>4200</ObjectId>
     </role>
-    <role id="15" parent="1" name="pg_stat_scan_tables">
-      <ObjectId>3377</ObjectId>
+    <role id="15" parent="1" name="pg_checkpoint">
+      <ObjectId>4544</ObjectId>
     </role>
     <role id="16" parent="1" name="pg_use_reserved_connections">
       <ObjectId>4550</ObjectId>
     </role>
-    <role id="17" parent="1" name="pg_write_all_data">
-      <ObjectId>6182</ObjectId>
+    <role id="17" parent="1" name="pg_create_subscription">
+      <ObjectId>6304</ObjectId>
     </role>
-    <role id="18" parent="1" name="pg_write_server_files">
-      <ObjectId>4570</ObjectId>
-    </role>
-    <role id="19" parent="1" name="postgres">
+    <role id="18" parent="1" name="postgres">
       <BypassRls>1</BypassRls>
       <CanLogin>1</CanLogin>
       <CreateDb>1</CreateDb>
@@ -874,6 +868,10 @@ false Zulu
       <ObjectId>10</ObjectId>
       <Replication>1</Replication>
       <SuperRole>1</SuperRole>
+    </role>
+    <role id="19" parent="1" name="neoflota">
+      <CanLogin>1</CanLogin>
+      <ObjectId>27395</ObjectId>
     </role>
     <tablespace id="20" parent="1" name="pg_default">
       <ObjectId>1663</ObjectId>
@@ -4281,9 +4279,6 @@ false Zulu
       <AutoIntrospectionLevel>3</AutoIntrospectionLevel>
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <LastIntrospectionL1Xid>1342</LastIntrospectionL1Xid>
-      <LastIntrospectionL2Xid>1342</LastIntrospectionL2Xid>
-      <LastIntrospectionL3Xid>1342</LastIntrospectionL3Xid>
       <LastIntrospectionLevel>3</LastIntrospectionLevel>
       <LastIntrospectionLocalTimestamp>2025-10-26.19:06:16</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
@@ -4921,8 +4916,8 @@ false Zulu
     <table id="326" parent="266" name="checklist_response_option">
       <Comment>Puente para MultiSelect de detalle (ej., posiciones de llantas afectadas).</Comment>
       <DetailsLevel>2</DetailsLevel>
-      <ObjectId>35777</ObjectId>
-      <StateNumber>1295</StateNumber>
+      <ObjectId>37029</ObjectId>
+      <StateNumber>1397</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -5568,7 +5563,6 @@ END) = 1</Predicate>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35792</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="469" parent="322" name="instance_id">
@@ -5726,7 +5720,6 @@ END) = 1</Predicate>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35729</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="490" parent="323" name="version_id">
@@ -5921,7 +5914,6 @@ due_at</ColNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35693</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="516" parent="324" name="version_id">
@@ -6096,7 +6088,6 @@ order_index</ColNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35750</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="537" parent="325" name="instance_id">
@@ -6206,7 +6197,7 @@ item_id</ColNames>
       <Comment>Respuesta a la que pertenecen los detalles MultiSelect.</Comment>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>1295</StateNumber>
+      <StateNumber>1397</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
@@ -6214,43 +6205,43 @@ item_id</ColNames>
       <Comment>Opción del grupo de detalle seleccionado.</Comment>
       <NotNull>1</NotNull>
       <Position>2</Position>
-      <StateNumber>1295</StateNumber>
+      <StateNumber>1397</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
     <foreign-key id="552" parent="326" name="checklist_response_option_response_id_fkey">
       <ColNames>response_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>35782</ObjectId>
+      <ObjectId>37034</ObjectId>
       <OnDelete>cascade</OnDelete>
-      <StateNumber>1295</StateNumber>
+      <StateNumber>1397</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>35751</RefTableId>
+      <RefTableId>37003</RefTableId>
     </foreign-key>
     <foreign-key id="553" parent="326" name="checklist_response_option_option_id_fkey">
       <ColNames>option_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>35787</ObjectId>
-      <StateNumber>1295</StateNumber>
+      <ObjectId>37039</ObjectId>
+      <StateNumber>1397</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
-      <RefTableId>35633</RefTableId>
+      <RefTableId>36885</RefTableId>
     </foreign-key>
     <index id="554" parent="326" name="checklist_response_option_pkey">
       <ColNames>response_id
 option_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>35780</ObjectId>
+      <ObjectId>37032</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1295</StateNumber>
+      <StateNumber>1397</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
     <key id="555" parent="326" name="checklist_response_option_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>35781</ObjectId>
+      <ObjectId>37033</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>1295</StateNumber>
-      <UnderlyingIndexId>35780</UnderlyingIndexId>
+      <StateNumber>1397</StateNumber>
+      <UnderlyingIndexId>37032</UnderlyingIndexId>
     </key>
     <column id="556" parent="327" name="section_id">
       <Comment>PK de la sección.</Comment>
@@ -6259,7 +6250,6 @@ option_id</ColNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35678</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="557" parent="327" name="version_id">
@@ -6353,7 +6343,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35813</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="568" parent="328" name="instance_id">
@@ -6434,7 +6423,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35648</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="578" parent="329" name="code">
@@ -6539,7 +6527,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35662</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="591" parent="330" name="template_id">
@@ -6730,7 +6717,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35621</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="616" parent="332" name="code">
@@ -6814,7 +6800,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1295</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35632</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="626" parent="333" name="option_group_id">
@@ -6929,7 +6914,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35896</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="640" parent="334" name="plate">
@@ -7245,7 +7229,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35851</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="682" parent="335" name="name">
@@ -7314,7 +7297,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35884</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="690" parent="336" name="code">
@@ -7530,7 +7512,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35862</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="719" parent="338" name="name">
@@ -7599,7 +7580,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35829</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="727" parent="339" name="name">
@@ -7668,7 +7648,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35873</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="735" parent="340" name="code">
@@ -7752,7 +7731,6 @@ default</CollationNames>
       <Position>1</Position>
       <StateNumber>1297</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>35840</SequenceId>
       <TypeId>20</TypeId>
     </column>
     <column id="745" parent="341" name="name">

@@ -1,3 +1,7 @@
 package org.avyla.checklists.api.dto;
 
-public record CreateInstanceResponse(Long instanceId) {}
+import org.avyla.checklists.infrastructure.InstanceStatus;
+
+import java.time.Instant;
+
+public record CreateInstanceResponse(Long instanceId, InstanceStatus status, Instant startedAt, Instant dueAt) {}
