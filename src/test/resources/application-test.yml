@@ -1,0 +1,76 @@
+# Configuración para tests unitarios e integración
+spring:
+  # Base de datos H2 en memoria para tests
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # JPA/Hibernate para H2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # Crea schema al inicio, lo borra al final
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        jdbc.time_zone: UTC
+    show-sql: false  # Cambiar a true para debug
+    open-in-view: false
+
+  # Desactivar Flyway en tests (usamos ddl-auto=create-drop)
+  flyway:
+    enabled: false
+
+  # Configuración de multipart (misma que prod)
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 20MB
+
+  # Configuración de checklists (misma que prod)
+  checklists:
+    generation:
+      enabled: true
+    instance:
+      ttl-minutes: 60
+      complete-minutes: 15
+
+# Configuración de seguridad JWT para tests
+security:
+  jwt:
+    key:
+      # Clave de prueba (NO usar en producción)
+      private: "test-secret-key-for-unit-tests-only-do-not-use-in-production"
+    user:
+      generator: "AUTH0JWT-BACKEND-TEST"
+
+# CORS (misma configuración)
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:5173
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+  allowed-headers:
+    - Authorization
+    - Content-Type
+    - Accept
+  exposed-headers:
+    - Authorization
+  allow-credentials: false
+  max-age: 3600
+
+# Logging para tests
+logging:
+  level:
+    org.avyla: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
