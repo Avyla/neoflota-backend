@@ -57,8 +57,6 @@ public class ChecklistInstance {
     @Column(name = "overall_pass")
     private Boolean overallPass;
 
-    //Atributo no utilizado
-    // Mantener por compatibilidad con BD existente
     @Column(name = "condition_general", length = 25)
     private String conditionGeneral; // APTO|APTO_RESTRICCIONES|NO_APTO
 

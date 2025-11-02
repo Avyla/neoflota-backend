@@ -65,7 +65,7 @@ public class UserEntity implements UserDetails {
     private Boolean isEnable = true;
 
     @Column(name = "is_account_no_locked", nullable = false)
-    private Boolean isAccountNoLocked = false;
+    private Boolean isAccountNoLocked = true;
 
     @Column(name = "is_credentials_non_expired", nullable = false)
     private Boolean isCredentialsNonExpired = true;

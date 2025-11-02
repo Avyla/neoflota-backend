@@ -2,6 +2,8 @@ package org.avyla.vehicles.api;
 
 import lombok.RequiredArgsConstructor;
 import org.avyla.security.application.service.CurrentUserService;
+import org.avyla.vehicles.api.dto.response.DocumentMetaResponse;
+import org.avyla.vehicles.api.dto.response.DocumentUploadResponse;
 import org.avyla.vehicles.application.service.VehicleDocumentService;
 import org.avyla.vehicles.domain.entity.VehicleDocument;
 import org.avyla.vehicles.domain.enums.DocumentType;
@@ -25,7 +27,7 @@ public class VehicleDocumentController {
     private final CurrentUserService currentUserService;
 
     @PostMapping(value = "/{id}/documents", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public VehicleDocumentDtos.DocumentUploadResponse upload(
+    public DocumentUploadResponse upload(
             @PathVariable("id") Long vehicleId,
             @RequestParam("docType") DocumentType docType, // "SOAT" | "RTM"
             @RequestParam(value = "issuer", required = false) String issuer,
@@ -38,8 +40,8 @@ public class VehicleDocumentController {
     }
 
     @GetMapping("/{vehicleId}/documents")
-    public List<VehicleDocumentDtos.DocumentMetaResponse> list(@PathVariable Long vehicleId,
-                                                               @RequestParam String docType) {
+    public List<DocumentMetaResponse> list(@PathVariable Long vehicleId,
+                                           @RequestParam String docType) {
         var type = DocumentType.valueOf(docType.toUpperCase()); // maneja IllegalArgumentException si aplica
         return service.list(vehicleId, type);
     }

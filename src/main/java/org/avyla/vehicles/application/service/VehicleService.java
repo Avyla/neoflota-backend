@@ -169,7 +169,7 @@ public class VehicleService {
             vehicle.setColor(request.color());
         }
         if (request.currentOdometer() != null) {
-            vehicle.setCurrentOdometer(request.currentOdometer());
+            updateOdometerIfValid(vehicle, request.currentOdometer());
         }
         if (request.soatExpirationDate() != null) {
             vehicle.setSoatExpirationDate(request.soatExpirationDate());
@@ -323,6 +323,32 @@ public class VehicleService {
                 .daysToSoat(soatDays)
                 .daysToRtm(rtmDays)
                 .build();
+    }
+
+    private void updateOdometerIfValid(Vehicle vehicle, Integer newOdometer) {
+
+        Integer current = vehicle.getCurrentOdometer();
+
+        // Caso 1: Primera vez que se establece (null -> valor)
+        if (current == null) {
+            vehicle.setCurrentOdometer(newOdometer);
+            return;
+        }
+
+        // Caso 2: Actualización válida (mayor al actual)
+        if (newOdometer > current) {
+            vehicle.setCurrentOdometer(newOdometer);
+            return;
+        }
+
+        // Caso 3: Intento de actualización inválida (menor o igual al actual)
+        if (newOdometer == current) {
+            return;
+        }
+
+        throw new BadRequestException(
+                "El odómetro no puede ser menor al valor actual (" + current + " km)"
+        );
     }
 
 }

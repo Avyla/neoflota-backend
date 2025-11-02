@@ -3,6 +3,7 @@ package org.avyla.security.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.avyla.security.domain.enums.RoleEnum;
@@ -15,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
+@Builder
 public class Role {
 
     @Id
