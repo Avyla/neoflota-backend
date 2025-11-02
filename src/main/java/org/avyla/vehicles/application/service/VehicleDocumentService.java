@@ -1,14 +1,15 @@
 package org.avyla.vehicles.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.avyla.common.exceptions.BadRequestException;
-import org.avyla.common.exceptions.NotFoundException;
-import org.avyla.vehicles.api.dto.VehicleDocumentDtos;
-import org.avyla.vehicles.domain.model.Vehicle;
-import org.avyla.vehicles.domain.model.VehicleDocument;
+import org.avyla.shared.exception.BadRequestException;
+import org.avyla.shared.exception.NotFoundException;
+import org.avyla.vehicles.api.dto.response.DocumentMetaResponse;
+import org.avyla.vehicles.api.dto.response.DocumentUploadResponse;
+import org.avyla.vehicles.domain.entity.Vehicle;
+import org.avyla.vehicles.domain.entity.VehicleDocument;
 import org.avyla.vehicles.domain.repo.VehicleDocumentRepository;
 import org.avyla.vehicles.domain.repo.VehicleRepository;
-import org.avyla.vehicles.infrastructure.DocumentType;
+import org.avyla.vehicles.domain.enums.DocumentType;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +33,8 @@ public class VehicleDocumentService {
     private final VehicleDocumentRepository docRepo;
 
     @Transactional
-    public VehicleDocumentDtos.UploadResponse upload(Long vehicleId, DocumentType docType, // "SOAT" | "RTM"
-                                                     String issuer, LocalDate issuedAt, LocalDate expirationDate, MultipartFile file, Long currentUserId) {
+    public DocumentUploadResponse upload(Long vehicleId, DocumentType docType, // "SOAT" | "RTM"
+                                         String issuer, LocalDate issuedAt, LocalDate expirationDate, MultipartFile file, Long currentUserId) {
         if (vehicleId == null || docType == null || file == null || file.isEmpty()) {
             throw new BadRequestException("Parámetros obligatorios ausentes");
         }
@@ -67,13 +68,13 @@ public class VehicleDocumentService {
         } else if (docType == DocumentType.RTM && expirationDate != null) {
             veh.setRtmExpirationDate(expirationDate);
         }
-        return VehicleDocumentDtos.UploadResponse.builder().id(doc.getDocumentId()).filename(doc.getFilename()).build();
+        return DocumentUploadResponse.builder().id(doc.getDocumentId()).filename(doc.getFilename()).build();
     }
 
     @Transactional(readOnly = true)
-    public List<VehicleDocumentDtos.DocumentMeta> list(Long vehicleId, DocumentType docType) {
+    public List<DocumentMetaResponse> list(Long vehicleId, DocumentType docType) {
         var docs = docRepo.findByVehicle_VehicleIdAndDocTypeOrderByCreatedAtDesc(vehicleId, docType);
-        return docs.stream().map(d -> VehicleDocumentDtos.DocumentMeta.builder()
+        return docs.stream().map(d -> DocumentMetaResponse.builder()
                 .id(d.getVehicle().getVehicleId())
                 .docType(d.getDocType().name())
                 .issuer(d.getIssuer())

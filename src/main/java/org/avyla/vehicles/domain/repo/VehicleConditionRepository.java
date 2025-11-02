@@ -1,7 +1,6 @@
 package org.avyla.vehicles.domain.repo;
 
-import org.avyla.common.util.ConditionOptions;
-import org.avyla.vehicles.domain.model.VehicleCondition;
+import org.avyla.vehicles.domain.entity.VehicleCondition;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

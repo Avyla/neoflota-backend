@@ -1,9 +1,9 @@
 package org.avyla.checklists.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.avyla.vehicles.api.dto.VehiclePublishedMetadata;
-import org.avyla.vehicles.api.dto.VehiclePublishedMetadata.*;
-import org.avyla.vehicles.domain.model.*;
+import org.avyla.vehicles.api.dto.response.VehiclePublishedMetadata;
+import org.avyla.vehicles.api.dto.response.VehiclePublishedMetadata.*;
+import org.avyla.vehicles.domain.entity.*;
 import org.avyla.vehicles.domain.repo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,8 +1,8 @@
 package org.avyla.checklists.application.service;
 
-import org.avyla.checklists.api.dto.ResponseAttachment;
-import org.avyla.checklists.domain.model.ChecklistAttachment;
-import org.avyla.checklists.domain.model.ChecklistInstance;
+import org.avyla.checklists.api.dto.response.AttachmentResponse;
+import org.avyla.checklists.domain.entity.ChecklistAttachment;
+import org.avyla.checklists.domain.entity.ChecklistInstance;
 import org.avyla.checklists.domain.repo.ChecklistAttachmentRepository;
 import org.avyla.checklists.domain.repo.ChecklistInstanceRepository;
 import org.avyla.checklists.domain.repo.ChecklistResponseRepository;
@@ -35,7 +35,7 @@ public class AttachmentService {
 
     // ===== Subida por respuesta (1 evidencia por ítem) =====
     @Transactional
-    public ResponseAttachment uploadForResponse(Long responseId,
+    public AttachmentResponse uploadForResponse(Long responseId,
                                                 MultipartFile file,
                                                 Long currentUserId) {
         var response = responseRepo.findById(responseId)
@@ -71,7 +71,7 @@ public class AttachmentService {
 
     // ===== Listado por respuesta =====
     @Transactional
-    public List<ResponseAttachment> listForResponse(Long responseId) {
+    public List<AttachmentResponse> listForResponse(Long responseId) {
         return attachmentRepo.findAllByResponse_Id(responseId)
                 .stream().map(this::toDto).toList();
     }
@@ -138,13 +138,13 @@ public class AttachmentService {
         return "application/octet-stream"; // rechazado por whitelist en upload
     }
 
-    private ResponseAttachment toDto(ChecklistAttachment a) {
+    private AttachmentResponse toDto(ChecklistAttachment a) {
         var url = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/api/attachments/")
                 .path(a.getId().toString())
                 .toUriString();
 
-        return ResponseAttachment.builder()
+        return AttachmentResponse.builder()
                 .id(a.getId().toString())
                 .filename(a.getFilename())
                 .type(a.getType())
@@ -155,7 +155,7 @@ public class AttachmentService {
 
     // ===== (opcional) subir a nivel de instancia =====
     @Transactional
-    public ResponseAttachment uploadForInstance(Long instanceId,
+    public AttachmentResponse uploadForInstance(Long instanceId,
                                                 MultipartFile file,
                                                 Long currentUserId) {
         ChecklistInstance instance = instanceRepo.findById(instanceId)

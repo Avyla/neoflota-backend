@@ -1,6 +1,6 @@
 package org.avyla.checklists.domain.repo;
 
-import org.avyla.checklists.domain.model.OptionItem;
+import org.avyla.checklists.domain.entity.OptionItem;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

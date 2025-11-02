@@ -1,6 +1,6 @@
 package org.avyla.vehicles.domain.repo;
 
-import org.avyla.vehicles.domain.model.VehicleCategory;
+import org.avyla.vehicles.domain.entity.VehicleCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

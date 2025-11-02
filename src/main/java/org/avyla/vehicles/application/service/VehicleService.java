@@ -1,13 +1,13 @@
 package org.avyla.vehicles.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.avyla.common.exceptions.BadRequestException;
-import org.avyla.common.exceptions.NotFoundException;
-import org.avyla.vehicles.api.dto.VehicleCreateRequest;
-import org.avyla.vehicles.api.dto.VehicleDetailResponse;
-import org.avyla.vehicles.api.dto.VehicleSummaryDto;
-import org.avyla.vehicles.api.dto.VehicleUpdateRequest;
-import org.avyla.vehicles.domain.model.*;
+import org.avyla.shared.exception.BadRequestException;
+import org.avyla.shared.exception.NotFoundException;
+import org.avyla.vehicles.api.dto.request.VehicleCreateRequest;
+import org.avyla.vehicles.api.dto.response.VehicleSummaryResponse;
+import org.avyla.vehicles.api.dto.response.VehicleDetailResponse;
+import org.avyla.vehicles.api.dto.request.VehicleUpdateRequest;
+import org.avyla.vehicles.domain.entity.*;
 import org.avyla.vehicles.domain.repo.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -295,7 +295,7 @@ public class VehicleService {
                 .build();
     }
 
-    public List<VehicleSummaryDto> findExpiringByDate(int days) {
+    public List<VehicleSummaryResponse> findExpiringByDate(int days) {
         LocalDate limit = LocalDate.now().plusDays(days);
         return vehicleRepo.findExpiringByDate(limit).stream()
                 .map(this::toSummary)
@@ -303,15 +303,15 @@ public class VehicleService {
     }
 
     /**
-     * Convierte Vehicle a VehicleSummaryDto (para alertas de vencimiento).
+     * Convierte Vehicle a VehicleSummaryResponse (para alertas de vencimiento).
      */
-    private VehicleSummaryDto toSummary(Vehicle v) {
+    private VehicleSummaryResponse toSummary(Vehicle v) {
         Long soatDays = v.getSoatExpirationDate() == null ? null
                 : ChronoUnit.DAYS.between(LocalDate.now(), v.getSoatExpirationDate());
         Long rtmDays = v.getRtmExpirationDate() == null ? null
                 : ChronoUnit.DAYS.between(LocalDate.now(), v.getRtmExpirationDate());
 
-        return VehicleSummaryDto.builder()
+        return VehicleSummaryResponse.builder()
                 .id(v.getVehicleId())
                 .plate(v.getPlate())
                 .make(v.getMake() != null ? v.getMake().getName() : null)

@@ -1,9 +1,8 @@
 package org.avyla.checklists.domain.repo;
 
-import org.avyla.checklists.domain.model.ChecklistResponseOption;
-import org.avyla.checklists.domain.model.ResponseOptionId;
+import org.avyla.checklists.domain.entity.ChecklistResponseOption;
+import org.avyla.checklists.domain.entity.ResponseOptionId;
 import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

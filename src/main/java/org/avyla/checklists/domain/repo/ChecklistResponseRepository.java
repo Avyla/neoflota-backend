@@ -1,6 +1,6 @@
 package org.avyla.checklists.domain.repo;
 
-import org.avyla.checklists.domain.model.ChecklistResponse;
+import org.avyla.checklists.domain.entity.ChecklistResponse;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -39,5 +39,5 @@ public interface ChecklistResponseRepository extends JpaRepository<ChecklistResp
 
     @EntityGraph(attributePaths = {"item", "options", "options.option"})
     @Query("select r from ChecklistResponse r where r.instance.id = :instanceId")
-    List<org.avyla.checklists.domain.model.ChecklistResponse> findGraphByInstanceId(@Param("instanceId") Long instanceId);
+    List<ChecklistResponse> findGraphByInstanceId(@Param("instanceId") Long instanceId);
 }

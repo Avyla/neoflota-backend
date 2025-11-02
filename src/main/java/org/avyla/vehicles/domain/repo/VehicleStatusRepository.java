@@ -1,6 +1,6 @@
 package org.avyla.vehicles.domain.repo;
 
-import org.avyla.vehicles.domain.model.VehicleStatus;
+import org.avyla.vehicles.domain.entity.VehicleStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

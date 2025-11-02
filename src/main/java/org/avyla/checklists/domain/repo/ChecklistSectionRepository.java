@@ -1,6 +1,6 @@
 package org.avyla.checklists.domain.repo;
 
-import org.avyla.checklists.domain.model.ChecklistSection;
+import org.avyla.checklists.domain.entity.ChecklistSection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;

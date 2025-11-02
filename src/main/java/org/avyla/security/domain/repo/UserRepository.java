@@ -1,6 +1,6 @@
 package org.avyla.security.domain.repo;
 
-import org.avyla.security.domain.model.UserEntity;
+import org.avyla.security.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

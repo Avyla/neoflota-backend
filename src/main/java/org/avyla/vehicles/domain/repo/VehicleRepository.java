@@ -1,7 +1,7 @@
 package org.avyla.vehicles.domain.repo;
 
 
-import org.avyla.vehicles.domain.model.Vehicle;
+import org.avyla.vehicles.domain.entity.Vehicle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 
 import jakarta.persistence.LockModeType;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

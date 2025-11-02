@@ -5,8 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.avyla.checklists.domain.repo.ChecklistInstanceRepository;
-import org.avyla.checklists.infrastructure.InstanceStatus;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.avyla.checklists.domain.enums.InstanceStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

@@ -1,14 +1,14 @@
 package org.avyla.security.application.service;
 
 import lombok.RequiredArgsConstructor;
-import org.avyla.security.api.dto.AuthCreateUserRequest;
-import org.avyla.security.api.dto.AuthLoginRequest;
-import org.avyla.security.api.dto.AuthResponse;
-import org.avyla.security.domain.model.RoleEntity;
-import org.avyla.security.domain.model.UserEntity;
+import org.avyla.security.api.dto.request.AuthCreateUserRequest;
+import org.avyla.security.api.dto.request.AuthLoginRequest;
+import org.avyla.security.api.dto.response.AuthResponse;
+import org.avyla.security.domain.entity.Role;
+import org.avyla.security.domain.entity.UserEntity;
 import org.avyla.security.domain.repo.RoleRepository;
 import org.avyla.security.domain.repo.UserRepository;
-import org.avyla.security.infraestructure.JwtUtils;
+import org.avyla.shared.util.JwtUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -82,7 +82,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         String password = createUserRequest.password();
         List<String> rolesRequest = createUserRequest.roleRequest().roleListName();
 
-        Set<RoleEntity> roleEntitySet = roleRepository.findByRoleEnumIn(rolesRequest)
+        Set<Role> roleEntitySet = roleRepository.findByRoleEnumIn(rolesRequest)
                 .stream()
                 .collect(Collectors.toSet());
 

@@ -1,16 +1,16 @@
 package org.avyla.checklists.application.service;
 
-import org.avyla.checklists.api.dto.PublishedChecklistResponse;
-import org.avyla.checklists.api.dto.PublishedChecklistResponse.CatalogItemDTO;
-import org.avyla.checklists.api.dto.PublishedChecklistResponse.ItemDTO;
-import org.avyla.checklists.api.dto.PublishedChecklistResponse.SectionDTO;
+import org.avyla.checklists.api.dto.response.PublishedChecklistResponse;
+import org.avyla.checklists.api.dto.response.PublishedChecklistResponse.CatalogItemDTO;
+import org.avyla.checklists.api.dto.response.PublishedChecklistResponse.ItemDTO;
+import org.avyla.checklists.api.dto.response.PublishedChecklistResponse.SectionDTO;
 import org.avyla.checklists.domain.repo.ChecklistItemRepository;
 import org.avyla.checklists.domain.repo.ChecklistSectionRepository;
 import org.avyla.checklists.domain.repo.ChecklistVersionRepository;
 import org.avyla.checklists.domain.repo.OptionItemRepository;
-import org.avyla.checklists.infrastructure.ResponseState;
-import org.avyla.checklists.infrastructure.SeverityOptions;
-import org.avyla.common.exceptions.NotFoundException;
+import org.avyla.checklists.domain.enums.ResponseState;
+import org.avyla.checklists.domain.enums.SeverityOptions;
+import org.avyla.shared.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

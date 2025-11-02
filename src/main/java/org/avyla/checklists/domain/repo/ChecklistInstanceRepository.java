@@ -1,7 +1,7 @@
 package org.avyla.checklists.domain.repo;
 
-import org.avyla.checklists.domain.model.ChecklistInstance;
-import org.avyla.checklists.infrastructure.InstanceStatus;
+import org.avyla.checklists.domain.enums.InstanceStatus;
+import org.avyla.checklists.domain.entity.ChecklistInstance;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
