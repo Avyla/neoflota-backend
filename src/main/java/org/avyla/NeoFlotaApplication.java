@@ -10,6 +10,5 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class NeoFlotaApplication {
     public static void main(String[] args) {
         SpringApplication.run(NeoFlotaApplication.class, args);
-
     }
 }
