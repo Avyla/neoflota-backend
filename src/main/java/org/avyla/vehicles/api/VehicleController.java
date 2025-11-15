@@ -31,7 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/vehicles")
 @RequiredArgsConstructor
-public class VehicleController {
+public class   VehicleController {
 
     private final VehicleService vehicleService;
     private final CurrentUserService currentUserService;

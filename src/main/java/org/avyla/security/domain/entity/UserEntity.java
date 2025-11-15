@@ -9,14 +9,11 @@ import org.avyla.vehicles.domain.enums.DocumentIdentityType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-/*
-* UserPrincipal - Implementacion de UserDetails de Spring Security
-* contiene el usuario + sus autoridades (roles/privilegios)
-* */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -73,13 +70,49 @@ public class UserEntity implements UserDetails {
     @Column(name = "is_account_non_expired", nullable = false)
     private Boolean isAccountNonExpired = true;
 
+    // === Soft Delete ===
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    // === Relaciones ===
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
     private Set<Role> roles;
 
     private List<String> vehicles;
 
+    // === Métodos de Soft Delete ===
+
+    /**
+     * Marca el usuario como eliminado (soft delete)
+     */
+    public void softDelete() {
+        this.deletedAt = LocalDateTime.now();
+        this.isEnable = false;
+    }
+
+    /**
+     * Restaura un usuario eliminado
+     */
+    public void restore() {
+        this.deletedAt = null;
+        this.isEnable = true;
+    }
+
+    /**
+     * Verifica si el usuario está eliminado
+     */
+    public boolean isDeleted() {
+        return this.deletedAt != null;
+    }
+
+    // === UserDetails Implementation ===
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -101,7 +134,6 @@ public class UserEntity implements UserDetails {
         return this.isAccountNonExpired;
     }
 
-
     @Override
     public boolean isAccountNonLocked() {
         return this.isAccountNoLocked;
@@ -114,6 +146,6 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.isEnable;
+        return this.isEnable && !isDeleted();
     }
 }

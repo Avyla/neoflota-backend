@@ -11,6 +11,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity // ← Importante para @PreAuthorize
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -37,13 +39,47 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
 
                     // ========== ENDPOINTS PÚBLICOS ==========
-                    http.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
+                    // Solo login (sign-up comentado para producción)
+                    http.requestMatchers(HttpMethod.POST, "/api/auth/log-in").permitAll();
+                    // http.requestMatchers(HttpMethod.POST, "/api/auth/sing-up").permitAll(); // ← Comentar en producción
 
-                    // ✅ IMPORTANTE: Reglas ESPECÍFICAS primero
+                    // ========== USERS - REGLAS ESPECÍFICAS PRIMERO ==========
+                    // Perfil actual (todos los autenticados)
+                    http.requestMatchers(HttpMethod.GET, "/api/users/me").authenticated();
+
+                    // Búsqueda de usuarios (ADMIN y SUPERVISOR)
+                    http.requestMatchers(HttpMethod.GET, "/api/users/search").hasAnyRole("ADMIN", "SUPERVISOR");
+
+                    // Crear usuario (solo ADMIN)
+                    http.requestMatchers(HttpMethod.POST, "/api/users").hasRole("ADMIN");
+
+                    // Actualizar usuario (solo ADMIN)
+                    http.requestMatchers(HttpMethod.PUT, "/api/users/*").hasRole("ADMIN");
+
+                    // Cambiar contraseña (solo ADMIN)
+                    http.requestMatchers(HttpMethod.PATCH, "/api/users/*/password").hasRole("ADMIN");
+
+                    // Eliminar usuario (solo ADMIN)
+                    http.requestMatchers(HttpMethod.DELETE, "/api/users/*").hasRole("ADMIN");
+
+                    // Restaurar usuario (solo ADMIN)
+                    http.requestMatchers(HttpMethod.POST, "/api/users/*/restore").hasRole("ADMIN");
+
+                    // Listar y ver detalle (ADMIN y SUPERVISOR) - MÁS GENÉRICO AL FINAL
+                    http.requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("ADMIN", "SUPERVISOR");
+
+                    // ========== VEHICLES ==========
                     http.requestMatchers(HttpMethod.GET, "/api/vehicles/published").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/api/checklists/templates/*/versions/published").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/vehicles").hasAnyRole("FLEET_MANAGER", "ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/vehicles/*").hasAnyRole("FLEET_MANAGER", "ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/vehicles/*").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PATCH, "/api/vehicles/*/activate").hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/vehicles/*/documents").hasAnyRole("FLEET_MANAGER", "ADMIN");
+                    http.requestMatchers(HttpMethod.GET, "/api/vehicles/*/documents/**").authenticated();
+                    http.requestMatchers(HttpMethod.GET, "/api/vehicles/**").authenticated();
 
                     // ========== CHECKLISTS ==========
+                    http.requestMatchers(HttpMethod.GET, "/api/checklists/templates/*/versions/published").permitAll();
                     http.requestMatchers(HttpMethod.GET, "/api/checklists/me/**").hasRole("DRIVER");
                     http.requestMatchers(HttpMethod.POST, "/api/checklists/instances/*/responses").hasAnyRole("DRIVER", "MECHANIC");
                     http.requestMatchers(HttpMethod.POST, "/api/checklists/instances/*/submit").hasAnyRole("DRIVER", "MECHANIC");
@@ -54,20 +90,6 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.POST, "/api/checklists/*/attachments").hasAnyRole("DRIVER", "MECHANIC");
                     http.requestMatchers(HttpMethod.GET, "/api/attachments/**").authenticated();
                     http.requestMatchers(HttpMethod.DELETE, "/api/attachments/**").hasAnyRole("SUPERVISOR", "ADMIN");
-
-                    // ========== VEHICLES ==========
-                    // ⚠️ CRITICAL: Reglas específicas ANTES de las genéricas
-                    http.requestMatchers(HttpMethod.POST, "/api/vehicles").hasAnyRole("FLEET_MANAGER", "ADMIN");
-                    http.requestMatchers(HttpMethod.PUT, "/api/vehicles/*").hasAnyRole("FLEET_MANAGER", "ADMIN");
-                    http.requestMatchers(HttpMethod.DELETE, "/api/vehicles/*").hasRole("ADMIN");
-                    http.requestMatchers(HttpMethod.PATCH, "/api/vehicles/*/activate").hasRole("ADMIN");
-
-                    // Documentos (específicos primero)
-                    http.requestMatchers(HttpMethod.POST, "/api/vehicles/*/documents").hasAnyRole("FLEET_MANAGER", "ADMIN");
-                    http.requestMatchers(HttpMethod.GET, "/api/vehicles/*/documents/**").authenticated();
-
-                    // ✅ Regla GENÉRICA al final
-                    http.requestMatchers(HttpMethod.GET, "/api/vehicles/**").authenticated();
 
                     // ========== ADMIN ==========
                     http.requestMatchers("/api/admin/**").hasRole("ADMIN");
@@ -80,8 +102,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception
-    {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -97,5 +118,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

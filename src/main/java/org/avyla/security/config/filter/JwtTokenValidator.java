@@ -15,14 +15,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;  // ← AGREGAR ESTE IMPORT
+import org.springframework.security.core.userdetails.UserDetails;  // ← AGREGAR ESTE IMPORT
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collection;
 
-
-// Filtro para validar el token JWT en cada solicitud entrante
 @Component
 @RequiredArgsConstructor
 public class JwtTokenValidator extends OncePerRequestFilter {
@@ -48,14 +48,20 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
             Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
 
+            // ✅ CAMBIO: Crear un UserDetails en lugar de pasar solo el username
+            UserDetails userDetails = User.builder()
+                    .username(username)
+                    .password("") // No se necesita password para JWT
+                    .authorities(authorities)
+                    .build();
+
             SecurityContext context = SecurityContextHolder.createEmptyContext();
-            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            // ✅ CAMBIO: Pasar userDetails como principal en lugar de username
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
             context.setAuthentication(authenticationToken);
             SecurityContextHolder.setContext(context);
         }
 
         filterChain.doFilter(request, response);
-
     }
-
 }
